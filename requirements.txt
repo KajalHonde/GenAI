@@ -1,2 +1,0 @@
-# Runtime: standard library only. Dev/testing from Day 3:
-pytest>=7
