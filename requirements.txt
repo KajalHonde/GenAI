@@ -1,1 +1,1 @@
-# No external packages are required for Day 02.
+requests>=2.31.0
