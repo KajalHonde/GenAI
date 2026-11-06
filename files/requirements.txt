@@ -1,2 +1,0 @@
-# AapdaMitra uses only the Python standard library (Python 3.9+).
-# Add third-party packages here from D3 onwards.
