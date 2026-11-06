@@ -1,4 +1,4 @@
-# AapdaMitra — Day 03 (only new files)
+# AapdaMitra — Day 03
 
 This is an incremental update. It contains only the new Day 03 modules and
 the updated requirements.txt. It does NOT include or replace Day 01/Day 02
