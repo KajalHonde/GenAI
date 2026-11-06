@@ -1,4 +1,4 @@
-# AapdaMitra (आपदा मित्र)
+# AapdaMitra 
 
 AapdaMitra tells families what to do **before, during and after** a flood, heatwave or earthquake, using NDMA's official do's and don'ts and guidelines.
 
