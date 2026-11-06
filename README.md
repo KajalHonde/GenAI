@@ -1,4 +1,4 @@
-# AapdaMitra (आपदा मित्र) 🛟
+# AapdaMitra 
 
 > A "disaster friend" for everyday Indians: quick, offline-friendly guidance on what to do **before, during and after** a disaster, plus the right helpline to call.
 
