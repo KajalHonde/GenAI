@@ -1,0 +1,41 @@
+"""AapdaMitra Day 02 action records and helper functions."""
+
+ACTION_RECORDS = [{'id': 1, 'hazard': 'heatwave', 'phase': 'before', 'action': 'Store safe drinking water and keep water containers clean.', 'do_or_dont': 'do', 'who_it_is_for': 'All village families', 'what_it_is_for': 'To make sure drinking water is available during very hot days.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 2, 'hazard': 'heatwave', 'phase': 'before', 'action': 'Plan outdoor work for cooler hours, such as early morning or evening.', 'do_or_dont': 'do', 'who_it_is_for': 'Farmers, outdoor workers and families', 'what_it_is_for': 'To reduce exposure to the strongest afternoon heat.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 3, 'hazard': 'heatwave', 'phase': 'before', 'action': 'Keep an eye on official weather forecasts and heat alerts.', 'do_or_dont': 'do', 'who_it_is_for': 'Village residents and local volunteers', 'what_it_is_for': 'To prepare early when high temperatures are forecast.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 4, 'hazard': 'heatwave', 'phase': 'during', 'action': 'Drink water regularly, even if you do not feel thirsty.', 'do_or_dont': 'do', 'who_it_is_for': 'People spending time in hot weather', 'what_it_is_for': 'To help prevent dehydration.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 5, 'hazard': 'heatwave', 'phase': 'during', 'action': 'Stay in shade or a cool, well-ventilated place during the hottest hours.', 'do_or_dont': 'do', 'who_it_is_for': 'All residents, especially older adults and children', 'what_it_is_for': "To reduce the body's exposure to extreme heat.", 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 6, 'hazard': 'heatwave', 'phase': 'during', 'action': 'Avoid strenuous outdoor activity during the hottest part of the day.', 'do_or_dont': 'do', 'who_it_is_for': 'Outdoor workers, students and sports participants', 'what_it_is_for': 'To lower the risk of heat exhaustion and heatstroke.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 7, 'hazard': 'heatwave', 'phase': 'during', 'action': 'Do not leave children, older adults or pets inside a parked vehicle.', 'do_or_dont': 'dont', 'who_it_is_for': 'Parents, caregivers and vehicle owners', 'what_it_is_for': 'A parked vehicle can become dangerously hot very quickly.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 8, 'hazard': 'flood', 'phase': 'before', 'action': 'Follow official flood warnings and local administration announcements.', 'do_or_dont': 'do', 'who_it_is_for': 'Families living near the Godavari River and low-lying areas', 'what_it_is_for': 'To receive timely information and prepare for possible evacuation.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 9, 'hazard': 'flood', 'phase': 'before', 'action': 'Prepare an emergency kit with drinking water, dry food, a torch, batteries, medicines and first-aid supplies.', 'do_or_dont': 'do', 'who_it_is_for': 'All households in flood-prone areas', 'what_it_is_for': 'To keep essential supplies ready if families must leave home.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 10, 'hazard': 'flood', 'phase': 'before', 'action': 'Keep important documents and medicines in a waterproof bag.', 'do_or_dont': 'do', 'who_it_is_for': 'All households, especially people who need regular medicines', 'what_it_is_for': 'To protect essential items from floodwater.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 11, 'hazard': 'flood', 'phase': 'likely', 'action': 'Move people, livestock and essential belongings to a safer higher location when authorities advise evacuation.', 'do_or_dont': 'do', 'who_it_is_for': 'Families in areas at risk of flooding', 'what_it_is_for': 'To reduce danger from rising water.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 12, 'hazard': 'flood', 'phase': 'during', 'action': 'Stay away from flowing floodwater, drains and submerged roads.', 'do_or_dont': 'dont', 'who_it_is_for': 'All residents, especially children', 'what_it_is_for': 'Floodwater can be deep, fast-moving or contaminated.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 13, 'hazard': 'flood', 'phase': 'during', 'action': 'Switch off electricity at the main supply only if it is safe to do so, and never touch wet electrical equipment.', 'do_or_dont': 'do', 'who_it_is_for': 'Adults in flooded or flood-threatened homes', 'what_it_is_for': 'To reduce the risk of electric shock.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 14, 'hazard': 'flood', 'phase': 'after', 'action': 'Do not return home until local authorities say the area is safe.', 'do_or_dont': 'dont', 'who_it_is_for': 'Evacuated families', 'what_it_is_for': 'Flooded buildings, roads and electrical systems may remain dangerous.', 'source_url': 'https://ndma.gov.in/en/floods-dos-donts'}, {'id': 15, 'hazard': 'earthquake', 'phase': 'before', 'action': 'Identify safe places in each room, such as under a sturdy table and away from windows.', 'do_or_dont': 'do', 'who_it_is_for': 'Families, schools and community buildings', 'what_it_is_for': 'To know where to take cover during shaking.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 16, 'hazard': 'earthquake', 'phase': 'before', 'action': 'Secure heavy shelves, cupboards and objects that could fall.', 'do_or_dont': 'do', 'who_it_is_for': 'Homeowners, tenants and school staff', 'what_it_is_for': 'To reduce injuries caused by falling objects.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 17, 'hazard': 'earthquake', 'phase': 'during', 'action': 'Drop, Cover and Hold On until the shaking stops.', 'do_or_dont': 'do', 'who_it_is_for': 'People indoors during an earthquake', 'what_it_is_for': 'To protect the head and body from falling objects.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 18, 'hazard': 'earthquake', 'phase': 'during', 'action': 'Do not use lifts/elevators while the building is shaking.', 'do_or_dont': 'dont', 'who_it_is_for': 'People in multi-storey buildings', 'what_it_is_for': 'Power failures or damage can trap people in elevators.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 19, 'hazard': 'earthquake', 'phase': 'during', 'action': 'If outdoors, move to an open area away from buildings, trees, streetlights and power lines.', 'do_or_dont': 'do', 'who_it_is_for': 'People who are outside during an earthquake', 'what_it_is_for': 'To avoid objects or structures that may fall.', 'source_url': 'https://ndma.gov.in/en/guidelines'}, {'id': 20, 'hazard': 'earthquake', 'phase': 'after', 'action': 'Expect aftershocks and follow instructions from local authorities.', 'do_or_dont': 'do', 'who_it_is_for': 'People in affected communities', 'what_it_is_for': 'Aftershocks may cause additional damage or injuries.', 'source_url': 'https://ndma.gov.in/en/guidelines'}]
+
+
+def load_records():
+    """Return all action records."""
+    return ACTION_RECORDS.copy()
+
+
+def search_records(keyword):
+    """Find records containing keyword in any text field."""
+    term = str(keyword).strip().lower()
+    if not term:
+        return []
+    return [
+        record for record in ACTION_RECORDS
+        if any(term in str(value).lower() for value in record.values())
+    ]
+
+
+def count_by(field):
+    """Count records grouped by a field, such as hazard or phase."""
+    counts = {}
+    for record in ACTION_RECORDS:
+        value = record.get(field, "unknown")
+        counts[value] = counts.get(value, 0) + 1
+    return counts
+
+
+def get_by_id(record_id):
+    """Return one record by its numeric ID, or None if it is not found."""
+    try:
+        wanted_id = int(record_id)
+    except (TypeError, ValueError):
+        return None
+
+    for record in ACTION_RECORDS:
+        if record["id"] == wanted_id:
+            return record
+    return None
