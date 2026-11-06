@@ -1,5 +1,4 @@
-# AapdaMitra (आपदा मित्र) - Day 2
-
+# AapdaMitra 
 Day 2 adds the **data layer** and a **command-line app**: 20 NDMA action records that you can show, search, count and open by id.
 
 ## Project card
