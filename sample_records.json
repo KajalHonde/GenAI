@@ -1,0 +1,326 @@
+[
+  {
+    "id": 1,
+    "key": "flood",
+    "title": "Flood",
+    "severity": "high",
+    "regions": "Godavari basin, coastal, river plains",
+    "before": "Know your nearest high ground and evacuation route; keep documents in a waterproof bag; store drinking water.",
+    "during": "Move to higher ground; switch off mains power; never walk or drive through flowing water.",
+    "after": "Drink only boiled or treated water; avoid wet electrical items; watch for snakes and disease.",
+    "helpline": {
+      "name": "ndma",
+      "number": "1078"
+    },
+    "tags": [
+      "flood",
+      "flood"
+    ]
+  },
+  {
+    "id": 2,
+    "key": "flash_flood",
+    "title": "Flash Flood",
+    "severity": "high",
+    "regions": "Hilly areas, nullahs, urban low-lying zones",
+    "before": "Do not camp near dry streambeds; track IMD heavy-rain alerts.",
+    "during": "Climb to higher ground immediately; do not wait for official warning.",
+    "after": "Stay away from damaged bridges and roads until declared safe.",
+    "helpline": {
+      "name": "emergency",
+      "number": "112"
+    },
+    "tags": [
+      "flash flood",
+      "flash flood"
+    ]
+  },
+  {
+    "id": 3,
+    "key": "drought",
+    "title": "Drought",
+    "severity": "medium",
+    "regions": "Marathwada, Vidarbha, Rajasthan",
+    "before": "Harvest rainwater; choose drought-tolerant crops; fix leaking taps and pipes.",
+    "during": "Ration water for drinking first; follow tanker schedules; avoid water-heavy crops.",
+    "after": "Report crop loss to the local agriculture office to claim relief.",
+    "helpline": {
+      "name": "ndma",
+      "number": "1078"
+    },
+    "tags": [
+      "drought",
+      "drought"
+    ]
+  },
+  {
+    "id": 4,
+    "key": "heatwave",
+    "title": "Heatwave",
+    "severity": "high",
+    "regions": "Central and North India, April to June",
+    "before": "Keep ORS and water ready; wear light cotton clothes; plan work before 11 am.",
+    "during": "Stay indoors at noon; drink water often; check on elders, children and animals.",
+    "after": "Rest and rehydrate; seek medical help for dizziness, vomiting or very high fever.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "heatwave",
+      "heatwave"
+    ]
+  },
+  {
+    "id": 5,
+    "key": "lightning",
+    "title": "Lightning",
+    "severity": "high",
+    "regions": "Open farmland, hilltops, monsoon season",
+    "before": "Check storm forecasts; identify a sturdy building to shelter in.",
+    "during": "Leave fields and avoid tall trees; crouch low if caught in the open; stay away from water bodies.",
+    "after": "Give first aid to victims; they carry no charge. Call an ambulance.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "lightning",
+      "lightning"
+    ]
+  },
+  {
+    "id": 6,
+    "key": "earthquake",
+    "title": "Earthquake",
+    "severity": "medium",
+    "regions": "Koyna, Latur zone, Himalayan belt",
+    "before": "Fix heavy furniture to walls; keep an emergency kit; practise drop, cover and hold.",
+    "during": "Drop, cover and hold on; stay away from windows; do not use lifts.",
+    "after": "Expect aftershocks; check for gas leaks; avoid damaged buildings.",
+    "helpline": {
+      "name": "emergency",
+      "number": "112"
+    },
+    "tags": [
+      "earthquake",
+      "earthquake"
+    ]
+  },
+  {
+    "id": 7,
+    "key": "cyclone",
+    "title": "Cyclone",
+    "severity": "high",
+    "regions": "East and West coast",
+    "before": "Secure roofs; stock food, torch and battery radio; know the cyclone shelter location.",
+    "during": "Stay indoors away from windows; evacuate if ordered; do not go out in the calm eye.",
+    "after": "Avoid fallen wires; return home only when authorities say it is safe.",
+    "helpline": {
+      "name": "ndma",
+      "number": "1078"
+    },
+    "tags": [
+      "cyclone",
+      "cyclone"
+    ]
+  },
+  {
+    "id": 8,
+    "key": "landslide",
+    "title": "Landslide",
+    "severity": "medium",
+    "regions": "Western Ghats, Himalayas",
+    "before": "Avoid building on steep slopes; watch for cracks and tilting trees after heavy rain.",
+    "during": "Move sideways out of the debris path, not downhill; alert neighbours.",
+    "after": "Stay away from the slide area; more slides may follow.",
+    "helpline": {
+      "name": "emergency",
+      "number": "112"
+    },
+    "tags": [
+      "landslide",
+      "landslide"
+    ]
+  },
+  {
+    "id": 9,
+    "key": "urban_fire",
+    "title": "Building Fire",
+    "severity": "high",
+    "regions": "Dense towns, markets, apartments",
+    "before": "Know two exits; keep an extinguisher; do not overload sockets.",
+    "during": "Crawl low under smoke; feel doors before opening; never use lifts; call the fire brigade.",
+    "after": "Do not re-enter; get checked for smoke inhalation.",
+    "helpline": {
+      "name": "fire",
+      "number": "101"
+    },
+    "tags": [
+      "urban fire",
+      "building fire"
+    ]
+  },
+  {
+    "id": 10,
+    "key": "forest_fire",
+    "title": "Forest Fire",
+    "severity": "medium",
+    "regions": "Dry forests in summer",
+    "before": "Clear dry leaves near homes; never leave campfires burning.",
+    "during": "Move away from the fire against the wind; cover nose with a wet cloth.",
+    "after": "Avoid ash-covered ground; report smouldering spots.",
+    "helpline": {
+      "name": "fire",
+      "number": "101"
+    },
+    "tags": [
+      "forest fire",
+      "forest fire"
+    ]
+  },
+  {
+    "id": 11,
+    "key": "lpg_leak",
+    "title": "LPG Gas Leak",
+    "severity": "medium",
+    "regions": "Homes, kitchens, restaurants",
+    "before": "Check the regulator and pipe regularly; keep the kitchen ventilated.",
+    "during": "Do not switch on any electric item or light a flame; open windows; turn off the regulator.",
+    "after": "Have the cylinder inspected by the distributor before reuse.",
+    "helpline": {
+      "name": "fire",
+      "number": "101"
+    },
+    "tags": [
+      "lpg leak",
+      "lpg gas leak"
+    ]
+  },
+  {
+    "id": 12,
+    "key": "road_accident",
+    "title": "Road Accident",
+    "severity": "high",
+    "regions": "Highways and village crossroads",
+    "before": "Wear a helmet or seatbelt; never drink and drive.",
+    "during": "Call 108; do not move a seriously injured person unless danger persists; control bleeding with clean cloth.",
+    "after": "Give your honest statement to police; Good Samaritan laws protect helpers.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "road accident",
+      "road accident"
+    ]
+  },
+  {
+    "id": 13,
+    "key": "snakebite",
+    "title": "Snakebite",
+    "severity": "medium",
+    "regions": "Farms, monsoon, rural homes",
+    "before": "Wear boots in fields; use a torch at night; keep grass trimmed.",
+    "during": "Keep the person calm and still; immobilise the limb; go to hospital for anti-venom at once.",
+    "after": "Do not cut, suck or tie tightly. Note the snake's look if safe.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "snakebite",
+      "snakebite"
+    ]
+  },
+  {
+    "id": 14,
+    "key": "dam_breach",
+    "title": "Dam Release / Breach",
+    "severity": "high",
+    "regions": "Downstream of dams, e.g. Godavari tributaries",
+    "before": "Learn the dam release alert system; know the evacuation route.",
+    "during": "Evacuate immediately on siren or alert; help the elderly and children first.",
+    "after": "Wait for official clearance before going back.",
+    "helpline": {
+      "name": "ndma",
+      "number": "1078"
+    },
+    "tags": [
+      "dam breach",
+      "dam release / breach"
+    ]
+  },
+  {
+    "id": 15,
+    "key": "tsunami",
+    "title": "Tsunami",
+    "severity": "low",
+    "regions": "Coastal belt",
+    "before": "Know the evacuation signs; stay aware of the INCOIS alerts.",
+    "during": "After a strong shore quake, go inland or uphill immediately without waiting for a siren.",
+    "after": "Stay away from the coast; waves can arrive for hours.",
+    "helpline": {
+      "name": "emergency",
+      "number": "112"
+    },
+    "tags": [
+      "tsunami",
+      "tsunami"
+    ]
+  },
+  {
+    "id": 16,
+    "key": "stampede",
+    "title": "Crowd Crush / Stampede",
+    "severity": "medium",
+    "regions": "Fairs, yatras, stations",
+    "before": "Note exit routes on arrival; avoid peak crowd times.",
+    "during": "Move diagonally with the crowd flow; keep arms up to protect your chest; do not bend down.",
+    "after": "Help the injured and call 108; report missing people.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "stampede",
+      "crowd crush / stampede"
+    ]
+  },
+  {
+    "id": 17,
+    "key": "chemical_leak",
+    "title": "Industrial Chemical Leak",
+    "severity": "high",
+    "regions": "Industrial zones and MIDC areas",
+    "before": "Know the factory siren; keep a wet cloth ready.",
+    "during": "Move crosswind and uphill; close windows; cover nose and mouth.",
+    "after": "Wash exposed skin; seek medical review.",
+    "helpline": {
+      "name": "emergency",
+      "number": "112"
+    },
+    "tags": [
+      "chemical leak",
+      "industrial chemical leak"
+    ]
+  },
+  {
+    "id": 18,
+    "key": "cold_wave",
+    "title": "Cold Wave",
+    "severity": "low",
+    "regions": "North India, winter",
+    "before": "Stock blankets; service heaters; layer clothing.",
+    "during": "Stay indoors; keep extremities covered; never burn coal in closed rooms.",
+    "after": "Warm up gradually; seek help for frostbite.",
+    "helpline": {
+      "name": "ambulance",
+      "number": "108"
+    },
+    "tags": [
+      "cold wave",
+      "cold wave"
+    ]
+  }
+]
