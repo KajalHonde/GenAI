@@ -1,0 +1,359 @@
+[
+  {
+    "id": 1,
+    "hazard": "flood",
+    "phase": "before",
+    "type": "do",
+    "title": "Ignore rumours",
+    "action": "Stay calm, ignore rumours and do not spread them. Follow official updates from radio, TV and newspapers.",
+    "audience": "everyone",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "rumour",
+      "calm",
+      "radio",
+      "weather",
+      "update"
+    ]
+  },
+  {
+    "id": 2,
+    "hazard": "flood",
+    "phase": "before",
+    "type": "do",
+    "title": "Waterproof your documents",
+    "action": "Keep ration card, Aadhaar, voter ID, cash and other valuables in a waterproof bag, ready to carry.",
+    "audience": "family",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "documents",
+      "aadhaar",
+      "ration card",
+      "bag",
+      "valuables"
+    ]
+  },
+  {
+    "id": 3,
+    "hazard": "flood",
+    "phase": "before",
+    "type": "do",
+    "title": "Protect livestock",
+    "action": "Keep cattle and animals in a safe shed and make sure they have clean drinking water.",
+    "audience": "farmer",
+    "season": "June-September",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "cattle",
+      "animals",
+      "shed",
+      "livestock",
+      "water"
+    ]
+  },
+  {
+    "id": 4,
+    "hazard": "flood",
+    "phase": "during",
+    "type": "do",
+    "title": "Flash flood: go to higher ground",
+    "action": "If a flash flood is possible, move to higher ground at once without waiting for instructions.",
+    "audience": "everyone",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "flash flood",
+      "higher ground",
+      "evacuate",
+      "godavari"
+    ]
+  },
+  {
+    "id": 5,
+    "hazard": "flood",
+    "phase": "during",
+    "type": "dont",
+    "title": "Do not wade through flood water",
+    "action": "Do not enter flowing flood water. If you must, wear strong footwear and check the ground ahead.",
+    "audience": "everyone",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "wade",
+      "walk",
+      "footwear",
+      "current",
+      "water"
+    ]
+  },
+  {
+    "id": 6,
+    "hazard": "flood",
+    "phase": "during",
+    "type": "do",
+    "title": "Switch off electricity",
+    "action": "Switch off the electric supply and do not touch open wires or wet electrical items.",
+    "audience": "family",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "electricity",
+      "wires",
+      "power",
+      "shock"
+    ]
+  },
+  {
+    "id": 7,
+    "hazard": "flood",
+    "phase": "after",
+    "type": "do",
+    "title": "Use safe drinking water",
+    "action": "Drink only boiled or chlorinated water and use disinfectants to clean everything that got wet.",
+    "audience": "family",
+    "season": "June-September",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts",
+    "keywords": [
+      "boiled",
+      "chlorinated",
+      "disease",
+      "disinfectant",
+      "drinking water"
+    ]
+  },
+  {
+    "id": 8,
+    "hazard": "heatwave",
+    "phase": "before",
+    "type": "do",
+    "title": "Keep a heatwave kit ready",
+    "action": "Keep a water bottle, hat or umbrella, towel, hand fan and ORS or glucose ready at home.",
+    "audience": "family",
+    "season": "April-May",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "kit",
+      "ors",
+      "hat",
+      "water",
+      "glucose"
+    ]
+  },
+  {
+    "id": 9,
+    "hazard": "heatwave",
+    "phase": "during",
+    "type": "dont",
+    "title": "Avoid the midday sun",
+    "action": "Avoid going out between 12 noon and 3 pm. Do heavy work early morning or evening.",
+    "audience": "everyone",
+    "season": "April-May",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "sun",
+      "noon",
+      "afternoon",
+      "outdoor",
+      "work"
+    ]
+  },
+  {
+    "id": 10,
+    "hazard": "heatwave",
+    "phase": "during",
+    "type": "do",
+    "title": "Drink water often",
+    "action": "Drink water often, even if you are not thirsty. Use ORS, lemon water, buttermilk or coconut water.",
+    "audience": "everyone",
+    "season": "April-May",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "water",
+      "ors",
+      "thirst",
+      "buttermilk",
+      "hydrate"
+    ]
+  },
+  {
+    "id": 11,
+    "hazard": "heatwave",
+    "phase": "during",
+    "type": "do",
+    "title": "Wear light cotton clothes",
+    "action": "Wear light-coloured, loose, porous cotton clothes and cover your head.",
+    "audience": "everyone",
+    "season": "April-May",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "cotton",
+      "clothes",
+      "head",
+      "cover",
+      "loose"
+    ]
+  },
+  {
+    "id": 12,
+    "hazard": "heatwave",
+    "phase": "during",
+    "type": "dont",
+    "title": "Avoid alcohol, tea and coffee",
+    "action": "Avoid alcohol, tea, coffee and fizzy drinks because they make the body lose water.",
+    "audience": "everyone",
+    "season": "April-May",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "alcohol",
+      "tea",
+      "coffee",
+      "fizzy",
+      "drinks"
+    ]
+  },
+  {
+    "id": 13,
+    "hazard": "heatwave",
+    "phase": "during",
+    "type": "dont",
+    "title": "Never leave children in a vehicle",
+    "action": "Never leave children or pets inside a parked vehicle. Call 108 or go to the nearest health centre if someone feels very ill.",
+    "audience": "family",
+    "season": "April-May",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://www.ndma.gov.in/Natural-Hazards/Heat-Wave/Dos-Donts",
+    "keywords": [
+      "children",
+      "vehicle",
+      "108",
+      "heatstroke",
+      "ambulance"
+    ]
+  },
+  {
+    "id": 14,
+    "hazard": "earthquake",
+    "phase": "before",
+    "type": "do",
+    "title": "Make your home safer",
+    "action": "Repair deep plaster cracks, fix shelves and heavy objects firmly to walls, and keep heavy items on low shelves.",
+    "audience": "family",
+    "season": "any time",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/guidelines",
+    "keywords": [
+      "cracks",
+      "shelves",
+      "wall",
+      "house",
+      "repair"
+    ]
+  },
+  {
+    "id": 15,
+    "hazard": "earthquake",
+    "phase": "before",
+    "type": "do",
+    "title": "Plan how the family reunites",
+    "action": "Make a family plan so everyone knows where to meet and whom to call if you are separated.",
+    "audience": "family",
+    "season": "any time",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/guidelines",
+    "keywords": [
+      "plan",
+      "family",
+      "reunite",
+      "contact"
+    ]
+  },
+  {
+    "id": 16,
+    "hazard": "earthquake",
+    "phase": "during",
+    "type": "do",
+    "title": "Drop, cover and hold on",
+    "action": "Stay calm. Drop to the floor, cover your head and neck, and hold on to something sturdy until shaking stops.",
+    "audience": "everyone",
+    "season": "any time",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/guidelines",
+    "keywords": [
+      "drop",
+      "cover",
+      "hold",
+      "shaking",
+      "table"
+    ]
+  },
+  {
+    "id": 17,
+    "hazard": "earthquake",
+    "phase": "during",
+    "type": "dont",
+    "title": "Do not run out or use lifts",
+    "action": "Do not run outside during shaking because of falling debris, and do not use lifts.",
+    "audience": "everyone",
+    "season": "any time",
+    "priority": "high",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/guidelines",
+    "keywords": [
+      "run",
+      "lift",
+      "elevator",
+      "debris",
+      "outside"
+    ]
+  },
+  {
+    "id": 18,
+    "hazard": "earthquake",
+    "phase": "after",
+    "type": "do",
+    "title": "Expect aftershocks",
+    "action": "Expect aftershocks and follow official instructions. Put out flames and do not use candles or matches.",
+    "audience": "everyone",
+    "season": "any time",
+    "priority": "medium",
+    "source": "NDMA, Government of India",
+    "source_url": "https://ndma.gov.in/en/guidelines",
+    "keywords": [
+      "aftershock",
+      "fire",
+      "candle",
+      "flame",
+      "instructions"
+    ]
+  }
+]
