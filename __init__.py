@@ -1,0 +1,1 @@
+"""AapdaMitra application package."""
