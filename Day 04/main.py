@@ -13,7 +13,6 @@ def home():
 def health():
     return {"status": "AapdaMitra is running"}
 
-
 @app.get("/questions")
 def get_questions():
     return {
