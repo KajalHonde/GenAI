@@ -6,7 +6,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
-from app.smart_search import rank_records
+from Day02.app.smart_search import rank_records
 
 ROOT = Path(__file__).resolve().parent.parent
 RECORDS_FILE = ROOT / "data" / "records.jsonl"
@@ -40,7 +40,7 @@ def load_records() -> list[dict[str, Any]]:
         return records
 
     # Keeps the API usable before Day 03 ingestion has generated records.jsonl.
-    from app.records import load_records as load_day02_records
+    from Day02.app.records import load_records as load_day02_records
     return load_day02_records()
 
 

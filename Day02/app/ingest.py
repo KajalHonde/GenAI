@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 import re
 
-from app.models import ActionRecord
+from Day02.app.models import ActionRecord
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"

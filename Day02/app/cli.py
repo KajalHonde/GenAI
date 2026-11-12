@@ -1,7 +1,6 @@
 """Simple command-line menu for AapdaMitra Day 02."""
 
-from app.records import load_records, search_records, count_by, get_by_id
-
+from Day02.app.records import load_records, search_records, count_by, get_by_id
 
 def show_records(items):
     if not items:
