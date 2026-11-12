@@ -1,0 +1,53 @@
+[
+  {
+    "id": "Q1",
+    "question": "What should I do during a flood?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q2",
+    "question": "What precautions should I take during heavy rainfall?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q3",
+    "question": "How can I stay safe during an earthquake?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q4",
+    "question": "What should I keep in an emergency kit?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q5",
+    "question": "What should I do if my house gets flooded?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q6",
+    "question": "Is the bridge near my village currently open or closed?",
+    "answerable_from_sample_data": false,
+    "reason": "The sample data does not contain verified live bridge-status information."
+  },
+  {
+    "id": "Q7",
+    "question": "What should I do if I see a landslide?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q8",
+    "question": "How can I help an injured person during a disaster?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q9",
+    "question": "Where should I go during an emergency evacuation?",
+    "answerable_from_sample_data": false
+  },
+  {
+    "id": "Q10",
+    "question": "What emergency items should I carry while evacuating?",
+    "answerable_from_sample_data": false
+  }
+]
