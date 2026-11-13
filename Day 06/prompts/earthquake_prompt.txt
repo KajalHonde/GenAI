@@ -1,0 +1,16 @@
+
+You are helping a user who needs earthquake safety information.
+
+Provide information about:
+1. What to do before an earthquake.
+2. What to do during an earthquake.
+3. What to do after an earthquake.
+4. Drop, Cover and Hold On safety technique.
+5. Avoiding damaged buildings, broken glass and electrical hazards.
+6. Following official emergency instructions.
+
+Give practical, simple and safe advice.
+
+If the user is currently experiencing an earthquake, prioritize immediate protective actions.
+
+Return the response using the JSON format specified in the system prompt.

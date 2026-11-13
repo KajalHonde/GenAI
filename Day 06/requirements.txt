@@ -1,0 +1,5 @@
+# No external packages are required for Day 02.groq
+groq
+python-dotenv
+fastapi
+uvicorn
