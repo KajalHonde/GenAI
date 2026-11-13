@@ -18,7 +18,7 @@ class ActionRecord:
     source_url: str
 
     def validate(self):
-        if not isinstance(self.id, int) or self.id < 1:
+        if type(self.id) != int or self.id < 1:
             raise ValueError("id must be a positive integer")
         if self.hazard not in VALID_HAZARDS:
             raise ValueError(f"Invalid hazard: {self.hazard}")

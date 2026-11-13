@@ -4,16 +4,21 @@ from pathlib import Path
 import json
 import re
 
-from Day02.app.models import ActionRecord
+from app.models import ActionRecord
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
-OUTPUT = ROOT / "data" / "records.jsonl"
+OUTPUT = ROOT / "data" / "records.json"
 
 SOURCE_URLS = {
-    "ndma_guidelines.html": "https://ndma.gov.in/en/guidelines",
-    "flood_dos_donts.html": "https://ndma.gov.in/en/floods-dos-donts",
-    "ndma_home.html": "https://ndma.gov.in/en",
+    "guidelines.html":
+        "https://ndma.gov.in/en/guidelines",
+
+    "flood_dos_donts.html":
+        "https://ndma.gov.in/en/floods-dos-donts",
+
+    "ndma_home.html":
+        "https://ndma.gov.in/en",
 }
 
 class TextExtractor(HTMLParser):
@@ -110,27 +115,43 @@ def extract_records():
 
     return records
 
+
 def save_records(records):
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+
     seen = set()
-    saved = 0
+    valid_records = []
+
+    for item in records:
+        try:
+            validated = ActionRecord.from_dict(item).to_dict()
+
+            key = validated["action"].casefold()
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+            valid_records.append(validated)
+
+        except (TypeError, ValueError, KeyError) as exc:
+            print(f"[SKIP] Bad record: {exc}")
+
     try:
         with OUTPUT.open("w", encoding="utf-8") as handle:
-            for item in records:
-                try:
-                    validated = ActionRecord.from_dict(item).to_dict()
-                    key = validated["action"].casefold()
-                    if key in seen:
-                        continue
-                    seen.add(key)
-                    handle.write(json.dumps(validated, ensure_ascii=False) + "\\n")
-                    saved += 1
-                except (TypeError, ValueError, KeyError) as exc:
-                    print(f"[SKIP] Bad record: {exc}")
+            json.dump(
+                valid_records,
+                handle,
+                ensure_ascii=False,
+                indent=2
+            )
+
     except OSError as exc:
         print(f"[ERROR] Could not write {OUTPUT}: {exc}")
         return 0
-    return saved
+
+    return len(valid_records)
+
 
 if __name__ == "__main__":
     extracted = extract_records()
