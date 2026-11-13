@@ -1,1 +1,113 @@
-[]
+
+[
+  {
+    "id": 1,
+    "hazard": "flood",
+    "phase": "before",
+    "action": "Avoid building in flood prone areas unless you elevate and reinforce your home.",
+    "do_or_dont": "dont",
+    "who_it_is_for": "Residents and homeowners",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 2,
+    "hazard": "flood",
+    "phase": "before",
+    "action": "Install Check Valves in sewer traps to prevent floodwater from backing up into the drains of your home.",
+    "do_or_dont": "do",
+    "who_it_is_for": "Residents and homeowners",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 3,
+    "hazard": "flood",
+    "phase": "before",
+    "action": "Contact community officials to find out if they are planning to construct barriers (levees, beams and floodwalls) to stop floodwater from entering the homes in your area.",
+    "do_or_dont": "do",
+    "who_it_is_for": "Residents and homeowners",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 4,
+    "hazard": "flood",
+    "phase": "before",
+    "action": "Seal the walls in your basement with waterproofing compounds to avoid seepage.",
+    "do_or_dont": "do",
+    "who_it_is_for": "Residents and homeowners",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 5,
+    "hazard": "flood",
+    "phase": "likely",
+    "action": "If there is any possibility of a flash flood, move immediately to higher ground.",
+    "do_or_dont": "do",
+    "who_it_is_for": "People in flood-prone or flood-affected areas",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 6,
+    "hazard": "flood",
+    "phase": "during",
+    "action": "Do not wait for instructions to move.",
+    "do_or_dont": "dont",
+    "who_it_is_for": "People in flood-prone or flood-affected areas",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 7,
+    "hazard": "flood",
+    "phase": "unknown",
+    "action": "Move essential items to an upper floor.",
+    "do_or_dont": "do",
+    "who_it_is_for": "People in flood-prone or flood-affected areas",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 8,
+    "hazard": "flood",
+    "phase": "during",
+    "action": "Do not touch electrical equipment if you are wet or standing in water.",
+    "do_or_dont": "dont",
+    "who_it_is_for": "People in flood-prone or flood-affected areas",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 9,
+    "hazard": "flood",
+    "phase": "unknown",
+    "action": "Use a stick to check the firmness of the ground in front of you.",
+    "do_or_dont": "do",
+    "who_it_is_for": "People in flood-prone or flood-affected areas",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 10,
+    "hazard": "flood",
+    "phase": "during",
+    "action": "If floodwaters rise around your car, abandon the car and move to higher ground if you can do so safely.",
+    "do_or_dont": "do",
+    "who_it_is_for": "Drivers and vehicle occupants",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en/floods-dos-donts"
+  },
+  {
+    "id": 11,
+    "hazard": "flood",
+    "phase": "during",
+    "action": "Do not allow children to play in or near flood waters.",
+    "do_or_dont": "dont",
+    "who_it_is_for": "Children and their caregivers",
+    "what_it_is_for": "Candidate disaster safety guidance extracted from an NDMA webpage; verify original context",
+    "source_url": "https://ndma.gov.in/en"
+  }
+]
