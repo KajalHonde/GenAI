@@ -1,0 +1,79 @@
+
+[
+  {
+    "id": "Q1",
+    "question": "What safety precautions should people take before an earthquake?",
+    "expected_keywords": ["electrical", "gas", "heavy"]
+  },
+  {
+    "id": "Q2",
+    "question": "What should people do during a flood warning?",
+    "expected_keywords": ["flood", "warning", "safety"]
+  },
+  {
+    "id": "Q3",
+    "question": "What items should be included in an emergency kit?",
+    "expected_keywords": ["emergency", "kit", "water"]
+  },
+  {
+    "id": "Q4",
+    "question": "What should a person do during an earthquake?",
+    "expected_keywords": ["drop", "cover", "hold"]
+  },
+  {
+    "id": "Q5",
+    "question": "What precautions should people take when walking through floodwater?",
+    "expected_keywords": ["floodwater", "safety", "water"]
+  },
+  {
+    "id": "Q6",
+    "question": "What is the personal mobile number of the local disaster officer in my village?",
+    "expected_keywords": [],
+    "expected_answer": "I don't know"
+  },
+  {
+    "id": "Q7",
+    "question": "What should people do if they are trapped under debris after an earthquake?",
+    "expected_keywords": ["debris", "mouth", "pipes"]
+  },
+  {
+    "id": "Q8",
+    "question": "How can people stay safe near damaged electrical wires after a disaster?",
+    "expected_keywords": ["electrical", "wires", "safety"]
+  },
+  {
+    "id": "Q9",
+    "question": "What should people do after an earthquake?",
+    "expected_keywords": ["after", "earthquake", "safety"]
+  },
+  {
+    "id": "Q10",
+    "question": "Why should people avoid moving near buildings and trees during an earthquake?",
+    "expected_keywords": ["buildings", "trees", "earthquake"]
+  },
+  {
+    "id": "Q11",
+    "question": "What precautions should people take to protect their homes before an earthquake?",
+    "expected_keywords": ["secure", "heavy", "items"]
+  },
+  {
+    "id": "Q12",
+    "question": "What should people avoid doing during a flood?",
+    "expected_keywords": ["flood", "avoid", "water"]
+  },
+  {
+    "id": "Q13",
+    "question": "How can trapped people attract rescuers after an earthquake?",
+    "expected_keywords": ["tap", "pipes", "walls"]
+  },
+  {
+    "id": "Q14",
+    "question": "What should people do if they are using a wheelchair during an earthquake?",
+    "expected_keywords": ["wheelchair", "earthquake", "cover"]
+  },
+  {
+    "id": "Q15",
+    "question": "Where can people find official disaster safety guidelines?",
+    "expected_keywords": ["NDMA", "guidelines", "disaster"]
+  }
+]
