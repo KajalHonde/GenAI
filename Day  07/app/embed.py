@@ -1,51 +1,74 @@
 
-"""Create text embeddings using Sentence Transformers."""
-
-import os
-from functools import lru_cache
-
-import numpy as np
 from sentence_transformers import SentenceTransformer
+import numpy as np
+
+# Load the embedding model
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
-class TextEmbedder:
+def generate_embeddings(texts):
+    """
+    Convert a list of text into numerical vectors.
+    """
+    embeddings = model.encode(
+        texts,
+        normalize_embeddings=True
+    )
 
-    def __init__(self, model_name=None):
-        self.model_name = model_name or os.getenv(
-            "EMBEDDING_MODEL",
-            "sentence-transformers/all-MiniLM-L6-v2"
-        )
-
-        self.model = SentenceTransformer(self.model_name)
-
-    def embed_documents(self, texts):
-        vectors = self.model.encode(
-            texts,
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-            show_progress_bar=False
-        )
-
-        return np.asarray(
-            vectors,
-            dtype=np.float32
-        ).tolist()
-
-    def embed_query(self, query):
-        vector = self.model.encode(
-            [query],
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-            show_progress_bar=False
-        )[0]
-
-        return np.asarray(
-            vector,
-            dtype=np.float32
-        ).tolist()
+    return embeddings
 
 
-@lru_cache(maxsize=1)
-def get_embedder():
-    """Load the embedding model once."""
-    return TextEmbedder()
+def semantic_search(question, documents, top_k=3):
+    """
+    Find the most relevant document chunks for a question.
+    """
+
+    if not documents:
+        return []
+
+    # Extract text from document chunks
+    texts = [doc["text"] for doc in documents]
+
+    # Generate document embeddings
+    document_embeddings = generate_embeddings(texts)
+
+    # Generate question embedding
+    question_embedding = generate_embeddings([question])[0]
+
+    # Calculate similarity scores
+    scores = np.dot(document_embeddings, question_embedding)
+
+    # Get the highest scoring results
+    top_indices = np.argsort(scores)[::-1][:top_k]
+
+    results = []
+
+    for index in top_indices:
+        result = {
+            "text": documents[index]["text"],
+            "metadata": documents[index]["metadata"],
+            "score": float(scores[index])
+        }
+
+        results.append(result)
+
+    return results
+
+
+if __name__ == "__main__":
+    from app.chunking import load_documents
+
+    documents = load_documents()
+
+    print("Total documents chunks:", len(documents))
+
+    question = "What should we do during floods?"
+
+    results = semantic_search(question, documents)
+
+    print("\nQuestion:", question)
+
+    for result in results:
+        print("\nRelevant text:", result["text"])
+        print("Metadata:", result["metadata"])
+        print("Similarity score:", result["score"])

@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -8,8 +7,8 @@ from google import genai
 from google.genai import types
 
 
-# Load .env from Day 06 folder
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Load .env file from Day 06 folder
+BASE_DIR = Path(__file__).resolve().parents[2] / "Day 06"
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -19,20 +18,17 @@ def generate_response(
     provider: str = None
 ) -> str:
 
-    # Select AI provider
     provider = (
         provider or os.getenv("LLM_PROVIDER", "groq")
     ).lower()
 
-    # -------------------------
-    # GROQ PROVIDER
-    # -------------------------
+    # GROQ
     if provider == "groq":
 
         api_key = os.getenv("GROQ_API_KEY")
 
         if not api_key:
-            raise ValueError("GROQ_API_KEY is missing in .env")
+            raise ValueError("GROQ_API_KEY is missing in Day 06/.env")
 
         client = Groq(api_key=api_key)
 
@@ -57,15 +53,13 @@ def generate_response(
 
         return response.choices[0].message.content or ""
 
-    # -------------------------
-    # GEMINI PROVIDER
-    # -------------------------
+    # GEMINI
     elif provider == "gemini":
 
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
-            raise ValueError("GEMINI_API_KEY is missing in .env")
+            raise ValueError("GEMINI_API_KEY is missing in Day 06/.env")
 
         client = genai.Client(api_key=api_key)
 
@@ -89,6 +83,5 @@ def generate_response(
 
     else:
         raise ValueError(
-            f"Unsupported provider: {provider}. "
-            "Choose groq or gemini."
+            f"Unsupported provider: {provider}. Choose groq or gemini."
         )

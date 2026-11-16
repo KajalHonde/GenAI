@@ -1,191 +1,92 @@
 
-"""Read documents and split them into searchable chunks."""
-
-from dataclasses import dataclass
-from hashlib import sha256
 from pathlib import Path
-import re
+from bs4 import BeautifulSoup
 
 
-SUPPORTED_EXTENSIONS = {
-    ".pdf",
-    ".txt",
-    ".md",
-    ".docx",
-    ".html",
-}
+def extract_text(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        html_content = file.read()
+
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Extract document title
+    title_tag = soup.find("h1") or soup.find("title")
+
+    if title_tag:
+        title = title_tag.get_text(strip=True)
+    else:
+        title = file_path.stem
+
+    # Remove unnecessary HTML elements
+    for tag in soup(["script", "style", "nav", "footer"]):
+        tag.decompose()
+
+    # Extract useful text
+    content = soup.find("main") or soup.body or soup
+    text = content.get_text(separator=" ", strip=True)
+
+    return text, title
 
 
-@dataclass
-class DocumentChunk:
-    id: str
-    text: str
-    source: str
-    page: int
-    title: str
-
-
-def clean_text(text: str) -> str:
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
-
-
-def read_document(path: Path):
-    suffix = path.suffix.lower()
-    fallback_title = path.stem.replace("_", " ").title()
-
-    if suffix == ".pdf":
-        from pypdf import PdfReader
-
-        reader = PdfReader(str(path))
-        pages = []
-
-        for page_number, page in enumerate(reader.pages, start=1):
-            text = page.extract_text() or ""
-            if text.strip():
-                pages.append((page_number, text, fallback_title))
-
-        return pages
-
-    if suffix == ".docx":
-        from docx import Document
-
-        document = Document(str(path))
-        text = "\n".join(p.text for p in document.paragraphs)
-        text = clean_text(text)
-
-        return [(1, text, fallback_title)] if text else []
-
-    if suffix == ".html":
-        from bs4 import BeautifulSoup
-
-        raw_html = path.read_text(
-            encoding="utf-8",
-            errors="replace"
-        )
-
-        soup = BeautifulSoup(raw_html, "html.parser")
-
-        for element in soup([
-            "script",
-            "style",
-            "nav",
-            "footer",
-            "header",
-            "noscript"
-        ]):
-            element.decompose()
-
-        title = (
-            soup.title.get_text(" ", strip=True)
-            if soup.title
-            else fallback_title
-        )
-
-        text = clean_text(
-            soup.get_text(separator=" ", strip=True)
-        )
-
-        return [(1, text, title)] if text else []
-
-    text = path.read_text(
-        encoding="utf-8",
-        errors="replace"
-    )
-
-    return [(1, clean_text(text), fallback_title)]
-
-
-def split_into_chunks(
-    text: str,
-    chunk_size: int = 180,
-    chunk_overlap: int = 35
-):
-    if chunk_size <= 0:
-        raise ValueError("chunk_size must be greater than zero")
-
-    if chunk_overlap < 0 or chunk_overlap >= chunk_size:
-        raise ValueError(
-            "chunk_overlap must be non-negative and smaller than chunk_size"
-        )
-
+def create_chunks(text, chunk_size=100, overlap=20):
     words = text.split()
-    chunks = []
 
+    if overlap >= chunk_size or overlap < 0:
+        raise ValueError("Overlap must be smaller than chunk size.")
+
+    chunks = []
     start = 0
 
     while start < len(words):
-        end = min(start + chunk_size, len(words))
-
+        end = start + chunk_size
         chunk = " ".join(words[start:end])
 
         if chunk.strip():
             chunks.append(chunk)
 
-        if end == len(words):
-            break
-
-        start = end - chunk_overlap
+        start += chunk_size - overlap
 
     return chunks
 
 
-def load_and_chunk_documents(
-    documents_dir: str | Path,
-    chunk_size: int = 180,
-    chunk_overlap: int = 35
-):
-    documents_path = Path(documents_dir)
-
-    if not documents_path.exists():
-        raise FileNotFoundError(
-            f"Documents folder not found: {documents_path}"
+def load_documents(documents_dir=None):
+    if documents_dir is None:
+        documents_dir = (
+            Path(__file__).resolve().parent.parent / "documents"
         )
+
+    documents_dir = Path(documents_dir)
 
     all_chunks = []
 
-    files = sorted(
-        path for path in documents_path.rglob("*")
-        if path.is_file()
-        and path.suffix.lower() in SUPPORTED_EXTENSIONS
-    )
+    for file_path in sorted(documents_dir.glob("*.html")):
 
-    for path in files:
-        try:
-            pages = read_document(path)
+        text, title = extract_text(file_path)
 
-            for page_number, text, title in pages:
-                if not text.strip():
-                    continue
+        chunks = create_chunks(text)
 
-                pieces = split_into_chunks(
-                    text,
-                    chunk_size,
-                    chunk_overlap
-                )
+        for index, chunk in enumerate(chunks):
 
-                for chunk_number, piece in enumerate(pieces):
-                    chunk_id = sha256(
-                        (
-                            f"{path.name}|{page_number}|"
-                            f"{chunk_number}|{piece}"
-                        ).encode("utf-8")
-                    ).hexdigest()
+            record = {
+                "id": f"{file_path.stem}_{index}",
+                "text": chunk,
+                "metadata": {
+                    "source": file_path.name,
+                    "page": 1,
+                    "title": title
+                }
+            }
 
-                    all_chunks.append(
-                        DocumentChunk(
-                            id=chunk_id,
-                            text=piece,
-                            source=path.name,
-                            page=page_number,
-                            title=title
-                        )
-                    )
-
-        except Exception as error:
-            print(
-                f"Skipping {path.name}: "
-                f"{type(error).__name__}: {error}"
-            )
+            all_chunks.append(record)
 
     return all_chunks
+
+
+if __name__ == "__main__":
+    documents = load_documents()
+
+    print("Total chunks:", len(documents))
+
+    for document in documents[:3]:
+        print("\nText:", document["text"])
+        print("Metadata:", document["metadata"])

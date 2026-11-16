@@ -1,122 +1,57 @@
 
-"""Persistent ChromaDB vector store."""
-
+import chromadb
 from pathlib import Path
 
-import chromadb
-
-from app.chunking import DocumentChunk
+from app.embed import generate_embeddings
 
 
-PROJECT_DIR = Path(__file__).resolve().parents[1]
+# Create persistent ChromaDB folder
+BASE_DIR = Path(__file__).resolve().parent.parent
+CHROMA_DIR = BASE_DIR / "chroma_db"
 
-CHROMA_DIR = PROJECT_DIR / "chroma_db"
+client = chromadb.PersistentClient(
+    path=str(CHROMA_DIR)
+)
 
-COLLECTION_NAME = "aapdamitra_documents"
+# Create collection
+collection = client.get_or_create_collection(
+    name="aapdamitra_documents"
+)
 
 
-class AapdaMitraVectorStore:
+def add_documents(documents):
 
-    def __init__(self):
-        CHROMA_DIR.mkdir(
-            parents=True,
-            exist_ok=True
-        )
+    texts = [doc["text"] for doc in documents]
 
-        self.persist_directory = CHROMA_DIR
+    embeddings = generate_embeddings(texts)
 
-        self.client = chromadb.PersistentClient(
-            path=str(CHROMA_DIR)
-        )
+    ids = [doc["id"] for doc in documents]
 
-        self.collection = self.client.get_or_create_collection(
-            name=COLLECTION_NAME,
-            metadata={"hnsw:space": "cosine"}
-        )
+    metadatas = [
+        doc["metadata"] for doc in documents
+    ]
 
-        self.collection_name = COLLECTION_NAME
+    collection.upsert(
+        ids=ids,
+        documents=texts,
+        embeddings=embeddings.tolist(),
+        metadatas=metadatas
+    )
 
-    def index_chunks(
-        self,
-        chunks: list[DocumentChunk],
-        embedder,
-        reset=False
-    ):
-        if reset:
-            try:
-                self.client.delete_collection(COLLECTION_NAME)
-            except Exception:
-                pass
+    print("Documents added successfully!")
 
-            self.collection = self.client.get_or_create_collection(
-                name=COLLECTION_NAME,
-                metadata={"hnsw:space": "cosine"}
-            )
 
-        batch_size = 64
-        indexed_count = 0
+def search_documents(question, top_k=3):
 
-        for start in range(0, len(chunks), batch_size):
-            batch = chunks[start:start + batch_size]
+    question_embedding = generate_embeddings(
+        [question]
+    )[0]
 
-            texts = [chunk.text for chunk in batch]
-            embeddings = embedder.embed_documents(texts)
+    results = collection.query(
+        query_embeddings=[
+            question_embedding.tolist()
+        ],
+        n_results=top_k
+    )
 
-            self.collection.upsert(
-                ids=[chunk.id for chunk in batch],
-                documents=texts,
-                embeddings=embeddings,
-                metadatas=[
-                    {
-                        "source": chunk.source,
-                        "page": chunk.page,
-                        "title": chunk.title
-                    }
-                    for chunk in batch
-                ]
-            )
-
-            indexed_count += len(batch)
-
-        return indexed_count
-
-    def search(self, query, embedder, top_k=5):
-        if not query.strip():
-            raise ValueError("Search query cannot be empty")
-
-        if self.collection.count() == 0:
-            return []
-
-        query_embedding = embedder.embed_query(query)
-
-        results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=min(
-                top_k,
-                self.collection.count()
-            ),
-            include=[
-                "documents",
-                "metadatas",
-                "distances"
-            ]
-        )
-
-        output = []
-
-        for index in range(len(results["ids"][0])):
-            distance = results["distances"][0][index]
-
-            output.append({
-                "id": results["ids"][0][index],
-                "text": results["documents"][0][index],
-                "source": results["metadatas"][0][index]["source"],
-                "page": results["metadatas"][0][index]["page"],
-                "title": results["metadatas"][0][index]["title"],
-                "similarity": round(1 - distance, 4)
-            })
-
-        return output
-
-    def count(self):
-        return self.collection.count()
+    return results
