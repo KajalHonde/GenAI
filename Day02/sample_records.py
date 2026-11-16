@@ -1,6 +1,6 @@
 """Demonstration of AapdaMitra action-record functions."""
 
-from app.records import load_records, search_records, count_by, get_by_id
+from Day02.app.records import load_records, search_records, count_by, get_by_id
 
 
 def print_record(record):
