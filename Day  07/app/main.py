@@ -3,7 +3,7 @@
 
 from fastapi import FastAPI
 
-from app.semantic_routes import router as semantic_router
+from app.search_api import router as search_router
 
 
 app = FastAPI(
@@ -12,7 +12,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(semantic_router)
+# Register semantic search API
+app.include_router(search_router)
 
 
 @app.get("/")

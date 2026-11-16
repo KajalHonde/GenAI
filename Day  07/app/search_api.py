@@ -1,54 +1,56 @@
 
-from fastapi import FastAPI, Query, HTTPException
+"""AapdaMitra Semantic Search API Router."""
+
+from fastapi import APIRouter, Query, HTTPException
 
 from app.vectorstore import search_documents
 
-
-app = FastAPI(
-    title="AapdaMitra Semantic Search API",
-    version="1.0.0"
-)
+router = APIRouter(tags=["Semantic Search"])
 
 
-@app.get("/")
-def home():
-
-    return {
-        "message": "Welcome to AapdaMitra Semantic Search API"
-    }
-
-
-@app.get("/search/semantic")
+@router.get("/search/semantic")
 def semantic_search(
-    q: str = Query(..., min_length=1),
-    top_k: int = Query(3, ge=1, le=10)
+    q: str = Query(
+        ...,
+        min_length=1,
+        description="Enter your disaster-related question"
+    ),
+    top_k: int = Query(
+        3,
+        ge=1,
+        le=10,
+        description="Number of relevant results"
+    )
 ):
+    try:
+        results = search_documents(q, top_k)
 
-    # Search relevant documents in ChromaDB
+        documents = results["documents"][0]
+        metadatas = results["metadatas"][0]
+        distances = results["distances"][0]
 
-    results = search_documents(q, top_k)
+        search_results = []
 
-    documents = results["documents"][0]
-    metadatas = results["metadatas"][0]
-    distances = results["distances"][0]
+        for document, metadata, distance in zip(
+            documents, metadatas, distances
+        ):
+            search_results.append({
+                "text": document,
+                "source": metadata["source"],
+                "title": metadata["title"],
+                "page": metadata["page"],
+                "chunk_number": metadata["chunk_number"],
+                "distance": round(float(distance), 4)
+            })
 
-    search_results = []
+        return {
+            "query": q,
+            "total_results": len(search_results),
+            "results": search_results
+        }
 
-    for document, metadata, distance in zip(
-        documents, metadatas, distances
-    ):
-
-        search_results.append({
-            "text": document,
-            "source": metadata["source"],
-            "title": metadata["title"],
-            "page": metadata["page"],
-            "chunk_number": metadata["chunk_number"],
-            "distance": round(distance, 4)
-        })
-
-    return {
-        "query": q,
-        "total_results": len(search_results),
-        "results": search_results
-    }
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Semantic search failed: {error}"
+        )
