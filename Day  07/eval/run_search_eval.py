@@ -1,59 +1,91 @@
 
+"""Run semantic search evaluation for AapdaMitra."""
+
 from pathlib import Path
 
-from app.chunking import load_documents
-from app.embed import semantic_search
+from app.vectorstore import search_documents
 
 
-# Project folders
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Project paths
+PROJECT_DIR = Path(__file__).resolve().parents[1]
+QUESTIONS_FILE = PROJECT_DIR / "eval" / "questions.txt"
+RESULTS_FILE = PROJECT_DIR / "eval" / "search_results.md"
 
-QUESTIONS_FILE = BASE_DIR / "eval" / "questions.txt"
-RESULTS_FILE = BASE_DIR / "eval" / "search_results.md"
+TOP_K = 3
 
 
 def run_evaluation():
+    if not QUESTIONS_FILE.exists():
+        print(f"Questions file not found: {QUESTIONS_FILE}")
+        return
 
-    # Load document chunks
-    documents = load_documents()
+    # Read the 10 evaluation questions
+    questions = [
+        line.strip()
+        for line in QUESTIONS_FILE.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.strip().startswith("#")
+    ]
 
-    # Read questions
-    with open(QUESTIONS_FILE, "r", encoding="utf-8") as file:
-        questions = [
-            line.strip()
-            for line in file
-            if line.strip()
-        ]
+    if not questions:
+        print("No questions found in eval/questions.txt")
+        return
 
-    # Store search results
-    with open(RESULTS_FILE, "w", encoding="utf-8") as file:
+    output = [
+        "# AapdaMitra Semantic Search Evaluation",
+        "",
+        f"Total questions: {len(questions)}",
+        f"Results per question: {TOP_K}",
+        "",
+    ]
 
-        file.write("# Semantic Search Evaluation\n\n")
+    for number, question in enumerate(questions, start=1):
+        print(f"Evaluating question {number}/{len(questions)}: {question}")
 
-        for number, question in enumerate(questions, start=1):
+        output.extend([
+            f"## Question {number}: {question}",
+            "",
+        ])
 
-            file.write(f"## Question {number}: {question}\n\n")
+        try:
+            results = search_documents(question, TOP_K)
 
-            results = semantic_search(
-                question,
-                documents,
-                top_k=3
-            )
+            documents = results["documents"][0]
+            metadatas = results["metadatas"][0]
+            distances = results["distances"][0]
 
-            for rank, result in enumerate(results, start=1):
+            if not documents:
+                output.extend(["No results found.", ""])
+                continue
 
-                file.write(f"### Result {rank}\n\n")
-                file.write(f"**Source:** {result['metadata']['source']}\n\n")
-                file.write(f"**Page:** {result['metadata']['page']}\n\n")
-                file.write(f"**Title:** {result['metadata']['title']}\n\n")
-                file.write(f"**Score:** {result['score']:.4f}\n\n")
-                file.write(f"**Text:** {result['text']}\n\n")
+            for rank, (document, metadata, distance) in enumerate(
+                zip(documents, metadatas, distances), start=1
+            ):
+                output.extend([
+                    f"### Result {rank}",
+                    f"- **Source:** {metadata.get('source', 'Unknown')}",
+                    f"- **Title:** {metadata.get('title', 'Unknown')}",
+                    f"- **Page:** {metadata.get('page', 'Unknown')}",
+                    f"- **Chunk:** {metadata.get('chunk_number', 'Unknown')}",
+                    f"- **Distance:** {float(distance):.4f}",
+                    "",
+                    "**Matched text:**",
+                    "",
+                    str(document),
+                    "",
+                ])
 
-            file.write("---\n\n")
+        except Exception as error:
+            output.extend([
+                f"Search failed: {error}",
+                "",
+            ])
+            print(f"Error: {error}")
 
-    print("Evaluation completed!")
-    print("Total questions:", len(questions))
-    print("Results saved to:", RESULTS_FILE)
+    RESULTS_FILE.write_text("\n".join(output), encoding="utf-8")
+
+    print("\nEvaluation completed!")
+    print(f"Questions evaluated: {len(questions)}")
+    print(f"Results saved to: {RESULTS_FILE}")
 
 
 if __name__ == "__main__":
