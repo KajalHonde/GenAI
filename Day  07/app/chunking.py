@@ -3,90 +3,68 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 
-def extract_text(file_path):
-    with open(file_path, "r", encoding="utf-8") as file:
-        html_content = file.read()
+def load_documents(folder_path):
 
-    soup = BeautifulSoup(html_content, "html.parser")
+    documents = []
 
-    # Extract document title
-    title_tag = soup.find("h1") or soup.find("title")
+    folder = Path(folder_path)
 
-    if title_tag:
-        title = title_tag.get_text(strip=True)
-    else:
-        title = file_path.stem
+    for file_path in folder.glob("*.html"):
 
-    # Remove unnecessary HTML elements
-    for tag in soup(["script", "style", "nav", "footer"]):
-        tag.decompose()
+        with open(file_path, "r", encoding="utf-8") as file:
+            html_content = file.read()
 
-    # Extract useful text
-    content = soup.find("main") or soup.body or soup
-    text = content.get_text(separator=" ", strip=True)
+        soup = BeautifulSoup(html_content, "html.parser")
 
-    return text, title
+        # Get document title
+        if soup.title and soup.title.string:
+            title = soup.title.string.strip()
+        else:
+            title = file_path.stem
 
+        # Remove unnecessary HTML elements
+        for element in soup(["script", "style", "nav", "footer"]):
+            element.decompose()
 
-def create_chunks(text, chunk_size=100, overlap=20):
-    words = text.split()
+        # Extract text
+        text = soup.get_text(separator=" ", strip=True)
 
-    if overlap >= chunk_size or overlap < 0:
-        raise ValueError("Overlap must be smaller than chunk size.")
+        # Store document details
+        documents.append({
+            "text": text,
+            "source": file_path.name,
+            "title": title
+        })
 
-    chunks = []
-    start = 0
-
-    while start < len(words):
-        end = start + chunk_size
-        chunk = " ".join(words[start:end])
-
-        if chunk.strip():
-            chunks.append(chunk)
-
-        start += chunk_size - overlap
-
-    return chunks
+    return documents
 
 
-def load_documents(documents_dir=None):
-    if documents_dir is None:
-        documents_dir = (
-            Path(__file__).resolve().parent.parent / "documents"
-        )
-
-    documents_dir = Path(documents_dir)
+def create_chunks(documents, chunk_size=100, overlap=20):
 
     all_chunks = []
 
-    for file_path in sorted(documents_dir.glob("*.html")):
+    for document in documents:
 
-        text, title = extract_text(file_path)
+        words = document["text"].split()
 
-        chunks = create_chunks(text)
+        start = 0
+        chunk_number = 1
 
-        for index, chunk in enumerate(chunks):
+        while start < len(words):
 
-            record = {
-                "id": f"{file_path.stem}_{index}",
-                "text": chunk,
-                "metadata": {
-                    "source": file_path.name,
-                    "page": 1,
-                    "title": title
-                }
-            }
+            end = start + chunk_size
 
-            all_chunks.append(record)
+            chunk_text = " ".join(words[start:end])
+
+            all_chunks.append({
+                "text": chunk_text,
+                "source": document["source"],
+                "title": document["title"],
+                "page": "Not available",
+                "chunk_number": chunk_number
+            })
+
+            start += chunk_size - overlap
+            chunk_number += 1
 
     return all_chunks
-
-
-if __name__ == "__main__":
-    documents = load_documents()
-
-    print("Total chunks:", len(documents))
-
-    for document in documents[:3]:
-        print("\nText:", document["text"])
-        print("Metadata:", document["metadata"])

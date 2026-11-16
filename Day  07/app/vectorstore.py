@@ -5,53 +5,82 @@ from pathlib import Path
 from app.embed import generate_embeddings
 
 
-# Create persistent ChromaDB folder
-BASE_DIR = Path(__file__).resolve().parent.parent
-CHROMA_DIR = BASE_DIR / "chroma_db"
+BASE_DIR = Path(__file__).resolve().parents[1]
 
-client = chromadb.PersistentClient(
-    path=str(CHROMA_DIR)
-)
+DB_PATH = BASE_DIR / "chroma_db"
 
-# Create collection
+client = chromadb.PersistentClient(path=str(DB_PATH))
+
 collection = client.get_or_create_collection(
-    name="aapdamitra_documents"
+    name="aapdamitra_documents",
+    metadata={"hnsw:space": "cosine"}
 )
 
 
-def add_documents(documents):
+def clear_collection():
 
-    texts = [doc["text"] for doc in documents]
+    existing_data = collection.get()
+
+    if existing_data["ids"]:
+        collection.delete(ids=existing_data["ids"])
+
+    print("Old collection data cleared.")
+
+
+def add_documents(chunks):
+
+    if not chunks:
+        print("No chunks available.")
+        return
+
+    texts = [chunk["text"] for chunk in chunks]
 
     embeddings = generate_embeddings(texts)
 
-    ids = [doc["id"] for doc in documents]
+    start_id = collection.count()
 
-    metadatas = [
-        doc["metadata"] for doc in documents
+    ids = [
+        f"doc_{i}"
+        for i in range(start_id, start_id + len(chunks))
     ]
 
-    collection.upsert(
+    metadatas = []
+
+    for chunk in chunks:
+
+        metadatas.append({
+            "source": chunk["source"],
+            "title": chunk["title"],
+            "page": str(chunk["page"]),
+            "chunk_number": int(chunk["chunk_number"])
+        })
+
+    collection.add(
         ids=ids,
         documents=texts,
         embeddings=embeddings.tolist(),
         metadatas=metadatas
     )
 
-    print("Documents added successfully!")
+    print(f"Successfully added {len(chunks)} chunks to ChromaDB.")
 
 
-def search_documents(question, top_k=3):
+def search_documents(query, top_k=3):
 
-    question_embedding = generate_embeddings(
-        [question]
-    )[0]
+    total = collection.count()
+
+    if total == 0:
+        return {
+            "documents": [[]],
+            "metadatas": [[]],
+            "distances": [[]]
+        }
+
+    query_embedding = generate_embeddings([query])
 
     results = collection.query(
-        query_embeddings=[
-            question_embedding.tolist()
-        ],
-        n_results=top_k
+        query_embeddings=query_embedding.tolist(),
+        n_results=min(top_k, total)
     )
 
     return results
