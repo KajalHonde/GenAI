@@ -1,18 +1,18 @@
 
+import re
 from typing import TypedDict, Optional
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.types import interrupt, Command
+from langgraph.types import interrupt
 
 from app.tools import heat_risk_index
 from app.rag import answer_question
 from app.llm import generate_response
 
 
-# 1. Define agent memory/state
+# 1. Define agent state and memory
 class AgentState(TypedDict):
-
     question: str
     decision: Optional[str]
     temperature: Optional[float]
@@ -21,7 +21,7 @@ class AgentState(TypedDict):
     approved: Optional[bool]
 
 
-# 2. LLM planner
+# 2. Planner prompt
 PLANNER_PROMPT = """
 You are the planner for AapdaMitra disaster safety agent.
 
@@ -31,10 +31,21 @@ HEAT = heat calculation
 RAG = disaster safety information
 BOTH = heat calculation and safety information
 
+Examples:
+Calculate heat risk at 40 degrees C and 60% humidity.
+Answer: HEAT
+
+How can people stay safe during a cyclone?
+Answer: RAG
+
+Calculate heat risk and explain heatwave safety precautions.
+Answer: BOTH
+
 Return only HEAT, RAG, or BOTH.
 """
 
 
+# 3. Planner node
 def planner_node(state: AgentState):
 
     response = generate_response(
@@ -42,19 +53,19 @@ def planner_node(state: AgentState):
         user_message=state["question"]
     )
 
-    decision = response.strip().upper()
+    response = response.strip().upper()
 
-    if "BOTH" in decision:
-        decision = "BOTH"
-    elif "HEAT" in decision:
-        decision = "HEAT"
+    match = re.search(r"\b(BOTH|HEAT|RAG)\b", response)
+
+    if match:
+        decision = match.group(1)
     else:
         decision = "RAG"
 
     return {"decision": decision}
 
 
-# 3. Human approval node
+# 4. Human approval node
 def approval_node(state: AgentState):
 
     approved = interrupt({
@@ -66,7 +77,32 @@ def approval_node(state: AgentState):
     return {"approved": bool(approved)}
 
 
-# 4. Execute selected tools
+# 5. Prepare a focused RAG question
+def build_rag_question(question: str, decision: str):
+
+    if decision != "BOTH":
+        return question
+
+    question_lower = question.lower()
+
+    heat_keywords = [
+        "heat",
+        "temperature",
+        "humidity",
+        "heatwave",
+        "heat wave"
+    ]
+
+    if any(word in question_lower for word in heat_keywords):
+        return (
+            "What safety precautions should people follow "
+            "during a heatwave?"
+        )
+
+    return question
+
+
+# 6. Execute selected tools
 def execute_node(state: AgentState):
 
     question = state["question"]
@@ -74,6 +110,7 @@ def execute_node(state: AgentState):
 
     result = {}
 
+    # Execute heat calculation
     if decision in ["HEAT", "BOTH"]:
 
         temperature = state.get("temperature")
@@ -82,8 +119,8 @@ def execute_node(state: AgentState):
         if temperature is None or humidity is None:
 
             result["heat_risk"] = (
-                "Please provide temperature in °C "
-                "and humidity in %."
+                "Please provide temperature in Celsius "
+                "and humidity in percentage."
             )
 
         else:
@@ -93,16 +130,22 @@ def execute_node(state: AgentState):
                 humidity
             )
 
+    # Execute RAG search
     if decision in ["RAG", "BOTH"]:
 
+        rag_question = build_rag_question(
+            question,
+            decision
+        )
+
         result["safety_information"] = answer_question(
-            question
+            rag_question
         )
 
     return {"result": result}
 
 
-# 5. Check approval
+# 7. Approval router
 def approval_router(state: AgentState):
 
     if state.get("approved"):
@@ -111,7 +154,7 @@ def approval_router(state: AgentState):
     return "end"
 
 
-# 6. Build LangGraph
+# 8. Build LangGraph
 builder = StateGraph(AgentState)
 
 builder.add_node("planner", planner_node)
@@ -133,7 +176,7 @@ builder.add_conditional_edges(
 builder.add_edge("execute", END)
 
 
-# 7. Add memory
+# 9. Add memory
 memory = MemorySaver()
 
 graph = builder.compile(
@@ -141,7 +184,7 @@ graph = builder.compile(
 )
 
 
-# 8. Run agent
+# 10. Run agent
 def run_agent(
     question: str,
     temperature: Optional[float] = None,
@@ -170,10 +213,14 @@ def run_agent(
     )
 
 
+# 11. Direct testing
 if __name__ == "__main__":
 
     response = run_agent(
-        question="Calculate heat risk and explain precautions.",
+        question=(
+            "Calculate heat risk at 40 degrees C "
+            "and 60% humidity, and explain safety precautions."
+        ),
         temperature=40,
         humidity=60
     )
