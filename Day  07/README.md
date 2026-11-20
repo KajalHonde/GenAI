@@ -1,5 +1,20 @@
 # AapdaMitra
 
+[![CI](https://github.com/KajalHonde/GenAI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/KajalHonde/GenAI/actions/workflows/ci.yml)
+
+## Deploy to Render
+
+The repository root contains a Render Blueprint that creates separate API and
+Streamlit UI services. In the Render Dashboard, create a Blueprint from this
+repository and apply `render.yaml`. The API health check is `/health`; after
+deployment, use the UI service URL for the public app.
+
+Both services use Render's free plan. Its filesystem is ephemeral, so the
+Chroma index is not durable across instance restarts. The embedding model is
+downloaded when the API starts, which can make its first startup take longer.
+To enable generated answers, configure `GROQ_API_KEY` on the API service in
+Render's environment settings. Do not commit provider keys to the repository.
+
 ## Run with Docker
 
 From this directory, start the FastAPI service and Streamlit UI with:
