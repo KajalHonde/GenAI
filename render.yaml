@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: aapdamitra-api
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: "Day  07/Dockerfile"
+    dockerContext: "Day  07"
+    dockerCommand: >-
+      /bin/sh -c 'exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-10000}"'
+    healthCheckPath: /health
+    autoDeployTrigger: checksPass
+
+  - type: web
+    name: aapdamitra-ui
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: "Day  07/Dockerfile"
+    dockerContext: "Day  07"
+    dockerCommand: >-
+      /bin/sh -c 'exec streamlit run ui/app.py --server.address=0.0.0.0 --server.port="${PORT:-10000}"'
+    healthCheckPath: /
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: API_URL
+        value: http://aapdamitra-api:10000
