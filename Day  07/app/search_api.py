@@ -1,7 +1,7 @@
 
 """AapdaMitra Semantic Search API Router."""
 
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 from app.vectorstore import search_documents
 
@@ -49,7 +49,7 @@ def semantic_search(
             "results": search_results
         }
 
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
         raise HTTPException(
             status_code=500,
             detail=f"Semantic search failed: {error}"

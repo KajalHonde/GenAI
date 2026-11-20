@@ -1,10 +1,9 @@
 
 import re
 
-from app.tools import heat_risk_index
-from app.rag import answer_question
 from app.llm import generate_response
-
+from app.rag import answer_question
+from app.tools import heat_risk_index
 
 PLANNER_PROMPT = """
 You are the decision-making planner for AapdaMitra,
@@ -126,7 +125,7 @@ def plan_tools(question):
 
         return rule_based_fallback(question)
 
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
 
         print("Planner unavailable. Using fallback:", error)
 

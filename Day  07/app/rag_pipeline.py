@@ -1,7 +1,7 @@
-from app.retriever import retrieve_documents
 from app.context_builder import build_context
-from app.prompt import create_prompt
 from app.llm import generate_response
+from app.prompt import create_prompt
+from app.retriever import retrieve_documents
 
 
 def generate_rag_answer(question):

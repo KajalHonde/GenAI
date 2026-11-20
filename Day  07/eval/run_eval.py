@@ -4,9 +4,9 @@
 import json
 from pathlib import Path
 
-from app.chunking import load_documents, create_chunks
-from app.vectorstore import clear_collection, add_documents, search_documents
+from app.chunking import create_chunks, load_documents
 from app.rag import answer_question
+from app.vectorstore import add_documents, clear_collection, search_documents
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DOCUMENTS_PATH = BASE_DIR / "documents"
@@ -55,7 +55,7 @@ def evaluate_configuration(config, questions):
 
                 passed = answer in ["i don't know", "i don't know."]
                 q6_passed = passed
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001
                 print(f"Q6 evaluation error: {error}")
                 passed = False
                 q6_passed = False

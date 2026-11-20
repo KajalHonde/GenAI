@@ -1,6 +1,6 @@
 
-from sentence_transformers import SentenceTransformer
 import numpy as np
+from sentence_transformers import SentenceTransformer
 
 # Load the embedding model
 model = SentenceTransformer("all-MiniLM-L6-v2")

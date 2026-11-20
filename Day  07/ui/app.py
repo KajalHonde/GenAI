@@ -7,6 +7,7 @@ Run from the project root:
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -222,7 +223,7 @@ with st.sidebar:
 
     api_url = st.text_input(
         "FastAPI URL",
-        "http://127.0.0.1:8000",
+        os.getenv("API_URL", "http://127.0.0.1:8000"),
     )
 
     mode = st.radio(
@@ -339,12 +340,10 @@ with chat_tab:
 
             except requests.exceptions.HTTPError as exc:
                 st.error(f"API error: {exc}")
-                try:
+                if exc.response is not None:
                     st.code(exc.response.text)
-                except Exception:
-                    pass
 
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 st.error(f"Something went wrong: {exc}")
 
     if st.session_state.pending_approval:

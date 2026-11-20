@@ -1,24 +1,24 @@
 
 import re
-from typing import TypedDict, Optional
+from typing import TypedDict
 
-from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 
-from app.tools import heat_risk_index
-from app.rag import answer_question
 from app.llm import generate_response
+from app.rag import answer_question
+from app.tools import heat_risk_index
 
 
 # 1. Define agent state and memory
 class AgentState(TypedDict):
     question: str
-    decision: Optional[str]
-    temperature: Optional[float]
-    humidity: Optional[float]
-    result: Optional[dict]
-    approved: Optional[bool]
+    decision: str | None
+    temperature: float | None
+    humidity: float | None
+    result: dict | None
+    approved: bool | None
 
 
 # 2. Planner prompt
@@ -187,8 +187,8 @@ graph = builder.compile(
 # 10. Run agent
 def run_agent(
     question: str,
-    temperature: Optional[float] = None,
-    humidity: Optional[float] = None,
+    temperature: float | None = None,
+    humidity: float | None = None,
     thread_id: str = "aapdamitra-user"
 ):
 

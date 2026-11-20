@@ -1,9 +1,8 @@
 
 from pathlib import Path
 
-from app.chunking import load_documents, create_chunks
+from app.chunking import create_chunks, load_documents
 from app.vectorstore import add_documents, clear_collection
-
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 

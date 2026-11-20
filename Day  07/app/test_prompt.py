@@ -1,19 +1,37 @@
 
-from app.retriever import retrieve_documents
 from app.context_builder import build_context
 from app.prompt import create_prompt
+from app.retriever import retrieve_documents
 
-# User question
-question = "What should we do during a flood?"
 
-# Retrieve documents
-documents = retrieve_documents(question)
+def test_create_prompt_returns_text():
+    question = "What should we do during a flood?"
 
-# Build context
-context = build_context(documents)
+    documents = retrieve_documents(question)
+    context = build_context(documents)
+    prompt = create_prompt(question, context)
 
-# Generate prompt
-prompt = create_prompt(question, context)
+    assert prompt is not None
+    assert isinstance(prompt, str)
+    assert len(prompt.strip()) > 0
 
-print("\nGenerated Prompt:\n")
-print(prompt)
+
+def test_prompt_contains_question():
+    question = "What should we do during a flood?"
+
+    documents = retrieve_documents(question)
+    context = build_context(documents)
+    prompt = create_prompt(question, context)
+
+    assert question in prompt
+
+
+def test_prompt_contains_context():
+    question = "What should we do during a flood?"
+
+    documents = retrieve_documents(question)
+    context = build_context(documents)
+    prompt = create_prompt(question, context)
+
+    if context.strip():
+        assert context in prompt

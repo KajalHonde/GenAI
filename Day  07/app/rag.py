@@ -4,8 +4,8 @@ import re
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.vectorstore import search_documents
 from app.llm import generate_response
+from app.vectorstore import search_documents
 
 router = APIRouter(tags=["RAG Question Answering"])
 
@@ -40,7 +40,7 @@ def get_keywords(text):
     words = re.findall(r"[a-z]+", text.lower())
 
     return {
-        word[:-1] if word.endswith("s") else word
+        word.removesuffix("s")
         for word in words
         if word not in STOP_WORDS and len(word) > 2
     }
@@ -144,7 +144,7 @@ Do not invent safety instructions.
             "citations": citations
         }
 
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
 
         raise HTTPException(
             status_code=500,

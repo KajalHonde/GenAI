@@ -4,16 +4,13 @@
 import uuid
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional
-
 from langgraph.types import Command
+from pydantic import BaseModel
 
-from app.search_api import router as search_router
-from app.rag import router as rag_router
 from app.graph import graph as agent_graph
 from app.graph import run_agent
-
+from app.rag import router as rag_router
+from app.search_api import router as search_router
 
 app = FastAPI(
     title="AapdaMitra API",
@@ -29,23 +26,20 @@ app.include_router(rag_router)
 
 # Agent request model
 class AgentRequest(BaseModel):
-
-    question: Optional[str] = None
-
-    temperature: Optional[float] = None
-
-    humidity: Optional[float] = None
-
-    thread_id: Optional[str] = None
-
-    approval: Optional[bool] = None
+    question: str | None = None
+    temperature: float | None = None
+    humidity: float | None = None
+    thread_id: str | None = None
+    approval: bool | None = None
 
 
 # POST /agent
 @app.post("/agent")
 def agent_endpoint(request: AgentRequest):
 
-    # First request: Start the agent
+    # ----------------------------------
+    # FIRST REQUEST: Start the agent
+    # ----------------------------------
     if request.approval is None:
 
         if not request.question:
@@ -56,14 +50,22 @@ def agent_endpoint(request: AgentRequest):
 
         thread_id = request.thread_id or str(uuid.uuid4())
 
-        response = run_agent(
-            question=request.question,
-            temperature=request.temperature,
-            humidity=request.humidity,
-            thread_id=thread_id
-        )
+        try:
+            response = run_agent(
+                question=request.question,
+                temperature=request.temperature,
+                humidity=request.humidity,
+                thread_id=thread_id
+            )
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(
+                status_code=500,
+                detail=f"Agent execution failed: {e!s}"
+            )
 
-    # Second request: Resume after human approval
+    # ----------------------------------
+    # SECOND REQUEST: Approval / Rejection
+    # ----------------------------------
     else:
 
         if not request.thread_id:
@@ -80,11 +82,19 @@ def agent_endpoint(request: AgentRequest):
             }
         }
 
-        response = agent_graph.invoke(
-            Command(resume=request.approval),
-            config=config
-        )
+        try:
+            # Resume the interrupted graph.
+            response = agent_graph.invoke(
+                Command(resume=request.approval),
+                config=config
+            )
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(
+                status_code=500,
+                detail=f"Approval processing failed: {e!s}"
+            )
 
+        # Explicit rejection response
         if request.approval is False:
             return {
                 "status": "rejected",
@@ -92,7 +102,9 @@ def agent_endpoint(request: AgentRequest):
                 "message": "Tool execution was not approved."
             }
 
-    # Check whether human approval is required
+    # ----------------------------------
+    # CHECK FOR HUMAN APPROVAL
+    # ----------------------------------
     if "__interrupt__" in response:
 
         approval_details = []
@@ -106,7 +118,9 @@ def agent_endpoint(request: AgentRequest):
             "approval_request": approval_details
         }
 
-    # Return completed result
+    # ----------------------------------
+    # COMPLETED RESPONSE
+    # ----------------------------------
     return {
         "status": "completed",
         "thread_id": thread_id,
@@ -115,9 +129,9 @@ def agent_endpoint(request: AgentRequest):
     }
 
 
+# HOME
 @app.get("/")
 def home():
-
     return {
         "message": "Welcome to AapdaMitra API",
         "health": "/health",
@@ -128,7 +142,7 @@ def home():
     }
 
 
+# HEALTH CHECK
 @app.get("/health")
 def health():
-
     return {"status": "ok"}

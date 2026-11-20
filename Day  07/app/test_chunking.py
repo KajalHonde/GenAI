@@ -1,41 +1,42 @@
 
 from pathlib import Path
 
-from app.chunking import load_documents, create_chunks
-
+from app.chunking import create_chunks, load_documents
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-
 DOCUMENTS_PATH = BASE_DIR / "documents"
 
 
-print("\nLoading documents...\n")
+def test_documents_are_loaded():
+    documents = load_documents(DOCUMENTS_PATH)
 
-documents = load_documents(DOCUMENTS_PATH)
-
-print("Total documents:", len(documents))
-
-for document in documents:
-    print("\nSource:", document["source"])
-    print("Title:", document["title"])
+    assert documents is not None
+    assert len(documents) > 0
 
 
-print("\nCreating chunks...\n")
+def test_chunks_are_created():
+    documents = load_documents(DOCUMENTS_PATH)
 
-chunks = create_chunks(documents)
+    chunks = create_chunks(documents)
 
-print("Total chunks:", len(chunks))
-
-
-for chunk in chunks[:5]:
-
-    print("\n-------------------------")
-
-    print("Source:", chunk["source"])
-    print("Title:", chunk["title"])
-    print("Page:", chunk["page"])
-    print("Chunk:", chunk["chunk_number"])
-    print("Text:", chunk["text"][:150])
+    assert chunks is not None
+    assert len(chunks) > 0
 
 
-print("\nChunking test completed!")
+def test_chunks_have_required_fields():
+    documents = load_documents(DOCUMENTS_PATH)
+    chunks = create_chunks(documents)
+
+    required_fields = ["source", "title", "page", "chunk_number", "text"]
+
+    for chunk in chunks:
+        for field in required_fields:
+            assert field in chunk
+
+
+def test_chunk_text_is_not_empty():
+    documents = load_documents(DOCUMENTS_PATH)
+    chunks = create_chunks(documents)
+
+    for chunk in chunks:
+        assert chunk["text"].strip() != ""

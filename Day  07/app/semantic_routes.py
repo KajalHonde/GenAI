@@ -6,7 +6,6 @@ from fastapi import APIRouter, HTTPException, Query
 from app.embed import get_embedder
 from app.vectorstore import AapdaMitraVectorStore
 
-
 router = APIRouter(tags=["Semantic Search"])
 
 
@@ -53,7 +52,7 @@ def semantic_search(
             detail=str(error)
         )
 
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
         raise HTTPException(
             status_code=500,
             detail=f"Semantic search failed: {error}"

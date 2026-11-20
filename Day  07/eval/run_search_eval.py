@@ -5,7 +5,6 @@ from pathlib import Path
 
 from app.vectorstore import search_documents
 
-
 # Project paths
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 QUESTIONS_FILE = PROJECT_DIR / "eval" / "questions.txt"
@@ -74,7 +73,7 @@ def run_evaluation():
                     "",
                 ])
 
-        except Exception as error:
+        except Exception as error:  # noqa: BLE001
             output.extend([
                 f"Search failed: {error}",
                 "",

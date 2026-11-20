@@ -1,73 +1,74 @@
 
-from pathlib import Path
+from unittest.mock import patch
+
+import numpy as np
 
 from app.vectorstore import search_documents
 
 
-questions = [
-    "What should we do before a flood?",
-    "What precautions should we take during a flood?",
-    "What should we do after a flood?",
-    "How can we prepare our home for flooding?",
-    "Which essential items should be moved to an upper floor?",
-    "What should we do when flash flooding is possible?",
-    "Is it safe to drive through flooded roads?",
-    "How can we get flood warnings and updates?",
-    "How can we protect electrical equipment during floods?",
-    "What precautions should we take while walking through floodwater?"
-]
+def test_search_documents_returns_empty_results_when_collection_is_empty():
+
+    with patch("app.vectorstore.collection.count", return_value=0):
+
+        results = search_documents(
+            "What should we do during a flood?"
+        )
+
+    assert results == {
+        "documents": [[]],
+        "metadatas": [[]],
+        "distances": [[]]
+    }
 
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+def test_search_documents_returns_results():
 
-EVAL_DIR = BASE_DIR / "eval"
+    mock_results = {
+        "documents": [["Flood safety information"]],
+        "metadatas": [[
+            {"source": "flood.pdf", "title": "Flood Safety"}
+        ]],
+        "distances": [[0.15]]
+    }
 
-EVAL_DIR.mkdir(exist_ok=True)
+    mock_embedding = np.array([[0.1, 0.2]])
 
-OUTPUT_FILE = EVAL_DIR / "search_results.md"
-
-results_text = "# AapdaMitra Semantic Search Evaluation\n\n"
-
-results_text += "Total questions: 10\n\n"
-
-
-for i, question in enumerate(questions, start=1):
-
-    print(f"\nQuestion {i}: {question}")
-
-    results = search_documents(question, top_k=3)
-
-    documents = results["documents"][0]
-    metadatas = results["metadatas"][0]
-    distances = results["distances"][0]
-
-    results_text += f"## Question {i}: {question}\n\n"
-
-    for j, (document, metadata, distance) in enumerate(
-        zip(documents, metadatas, distances), start=1
+    with patch("app.vectorstore.collection.count", return_value=5), patch(
+        "app.vectorstore.generate_embeddings",
+        return_value=mock_embedding
+    ), patch(
+        "app.vectorstore.collection.query",
+        return_value=mock_results
     ):
 
-        print(f"\nHit {j}")
-        print("Source:", metadata["source"])
-        print("Title:", metadata["title"])
-        print("Distance:", round(distance, 4))
-        print("Text:", document[:150])
+        results = search_documents(
+            "What should we do during a flood?"
+        )
 
-        results_text += f"### Hit {j}\n\n"
-        results_text += f"- Source: {metadata['source']}\n"
-        results_text += f"- Title: {metadata['title']}\n"
-        results_text += f"- Page: {metadata['page']}\n"
-        results_text += f"- Chunk: {metadata['chunk_number']}\n"
-        results_text += f"- Distance: {distance:.4f}\n"
-        results_text += f"- Text: {document[:300]}\n\n"
-
-    results_text += "---\n\n"
+    assert results == mock_results
 
 
-with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
-    file.write(results_text)
+def test_search_documents_limits_top_k_to_collection_count():
 
+    mock_results = {
+        "documents": [["Flood information"]],
+        "metadatas": [[{"source": "flood.pdf"}]],
+        "distances": [[0.2]]
+    }
 
-print("\nSemantic search evaluation completed!")
+    mock_embedding = np.array([[0.1, 0.2]])
 
-print("Results saved at:", OUTPUT_FILE)
+    with patch("app.vectorstore.collection.count", return_value=1), patch(
+        "app.vectorstore.generate_embeddings",
+        return_value=mock_embedding
+    ), patch(
+        "app.vectorstore.collection.query",
+        return_value=mock_results
+    ) as mock_query:
+
+        search_documents("Flood safety", top_k=3)
+
+        mock_query.assert_called_once_with(
+            query_embeddings=[[0.1, 0.2]],
+            n_results=1
+        )

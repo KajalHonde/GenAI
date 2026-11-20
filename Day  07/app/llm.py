@@ -2,10 +2,9 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from groq import Groq
 from google import genai
 from google.genai import types
-
+from groq import Groq
 
 # Load .env file from Day 06 folder
 BASE_DIR = Path(__file__).resolve().parents[2] / "Day 06"
@@ -15,7 +14,7 @@ load_dotenv(BASE_DIR / ".env")
 def generate_response(
     system_prompt: str,
     user_message: str,
-    provider: str = None
+    provider: str | None = None
 ) -> str:
 
     provider = (

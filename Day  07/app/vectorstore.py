@@ -1,9 +1,9 @@
 
-import chromadb
 from pathlib import Path
 
-from app.embed import generate_embeddings
+import chromadb
 
+from app.embed import generate_embeddings
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 

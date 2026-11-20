@@ -1,354 +1,314 @@
 # AapdaMitra Semantic Search Evaluation
 
 Total questions: 10
-Results per question: 3
 
-## Question 1: What should I do during an earthquake?
+## Question 1: What should we do before a flood?
 
-### Result 1
-- **Source:** ndma_home.html
-- **Title:** Rainy Season (Floods)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4428
+### Hit 1
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.2834
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
+### Hit 2
 
-### Result 2
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.4445
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3549
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-**Matched text:**
+### Hit 3
 
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.3816
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Tsunami
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.5064
+---
 
-**Matched text:**
+## Question 2: What precautions should we take during a flood?
 
-Know the height of your street above sea level and the distance of your street from the coast or other high-risk waters. Plan evacuation routes from your home, school, workplace, or any other place you could be where tsunamis present a risk Practice your evacuation routes. Move immediately to higher ground, DO NOT wait for a tsunami warning to be announced.
+### Hit 1
 
-## Question 2: What should I do if a flood warning is issued?
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3022
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 2
-- **Distance:** 0.3413
+### Hit 2
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3027
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to higher ground. Do not wait for instructions to move. Be aware of streams, drainage channels, canyons, and other areas known to flood suddenly. Flash floods can occur in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to
+### Hit 3
 
-### Result 2
-- **Source:** ndma_home.html
-- **Title:** Rainy Season (Floods)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.3605
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.3502
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-**Matched text:**
+---
 
-Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
+## Question 3: What should we do after a flood?
 
-### Result 3
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.3965
+### Hit 1
 
-**Matched text:**
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3584
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up into the drains of your home. Contact community officials to find out if they are planning to construct barriers (levees, beams and floodwalls) to stop floodwater from entering the homes in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely
+### Hit 2
 
-## Question 3: How can I prepare an emergency go-bag?
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3685
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.5930
+### Hit 3
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.4048
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
+---
 
-### Result 2
-- **Source:** ndma_home.html
-- **Title:** Capacity Building
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.6140
+## Question 4: How can we prepare our home for flooding?
 
-**Matched text:**
+### Hit 1
 
-Training first responders, organizing mock drills, and strengthening disaster response.
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.2355
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Summer (Heat Wave)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.6186
+### Hit 2
+
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.3468
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
+
+### Hit 3
+
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3591
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-**Matched text:**
+---
 
-Wear lightweight, light-coloured, loose, cotton clothes. Get trained in first aid. Stay indoors during extreme hot and use heaters safely and properly. Avoid going out in the sun, especially between 12.00 noon and 3.00 p.m. Avoid strenuous activities when outside in the afternoon.
+## Question 5: Which essential items should be moved to an upper floor?
 
-## Question 4: What should I do if I am trapped inside a building after an earthquake?
+### Hit 1
 
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.4196
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 3
+- Distance: 0.5793
+- Text: in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to d
 
-**Matched text:**
+### Hit 2
+
+- Source: earthquake.html
+- Title: Before an Earthquake
+- Page: Not available
+- Chunk: 1
+- Distance: 0.6581
+- Text: Keep emergency telephone numbers for doctors, hospitals and police readily available. Repair defective electrical wiring and leaking gas connections. Keep heavy objects such as pictures and mirrors away from beds. Repair deep cracks in ceilings, walls and foundations.
 
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
+### Hit 3
+
+- Source: ndma_home.html
+- Title: Tsunami
+- Page: Not available
+- Chunk: 1
+- Distance: 0.7253
+- Text: Know the height of your street above sea level and the distance of your street from the coast or other high-risk waters. Plan evacuation routes from your home, school, workplace, or any other place you could be where tsunamis present a risk Practice your evacuation routes. Move immediately to higher
 
-### Result 2
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 2
-- **Distance:** 0.5298
+---
 
-**Matched text:**
+## Question 6: What should we do when flash flooding is possible?
 
-in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to higher ground. Do not wait for instructions to move. Be aware of streams, drainage channels, canyons, and other areas known to flood suddenly. Flash floods can occur in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to
+### Hit 1
 
-### Result 3
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 4
-- **Distance:** 0.5329
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.3279
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-**Matched text:**
+### Hit 2
 
-evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have to walk in water, walk where the water is not moving. Use a stick to check the firmness of the ground in front of you. Do not drive into flooded areas. If floodwaters rise around your car, abandon the car and move to higher ground if you can do so safely. You and the vehicle can be quickly swept away.
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3960
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-## Question 5: How can I stay safe while moving through floodwater?
+### Hit 3
+
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.4677
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 4
-- **Distance:** 0.2834
+---
 
-**Matched text:**
+## Question 7: Is it safe to drive through flooded roads?
 
-evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have to walk in water, walk where the water is not moving. Use a stick to check the firmness of the ground in front of you. Do not drive into flooded areas. If floodwaters rise around your car, abandon the car and move to higher ground if you can do so safely. You and the vehicle can be quickly swept away.
+### Hit 1
 
-### Result 2
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.3776
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 4
+- Distance: 0.4479
+- Text: evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have to walk in water, walk where the water is not moving. Use a stick to check the firmness of the ground in front of you. Do not drive into flooded areas. If floodwaters rise around your car, ab
 
-**Matched text:**
+### Hit 2
 
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
+- Source: ndma_home.html
+- Title: Tsunami
+- Page: Not available
+- Chunk: 1
+- Distance: 0.5176
+- Text: Know the height of your street above sea level and the distance of your street from the coast or other high-risk waters. Plan evacuation routes from your home, school, workplace, or any other place you could be where tsunamis present a risk Practice your evacuation routes. Move immediately to higher
 
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Rainy Season (Floods)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.3993
+### Hit 3
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.5348
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
+---
 
-## Question 6: What emergency numbers or authorities should I contact during a disaster?
+## Question 8: How can we get flood warnings and updates?
 
-### Result 1
-- **Source:** ndma_home.html
-- **Title:** Research & Innovation
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4476
+### Hit 1
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.4074
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-Integrating technology and data for early warning systems and efficient disaster response.
+### Hit 2
 
-### Result 2
-- **Source:** ndma_home.html
-- **Title:** Coordination & Collaboration
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4476
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.4167
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-**Matched text:**
+### Hit 3
 
-Integrating technology and data for early warning systems and efficient disaster response.
+- Source: ndma_home.html
+- Title: Preparedness in Your Pocket Download NDMA "SACHET".
+- Page: Not available
+- Chunk: 1
+- Distance: 0.4281
+- Text: It provides real-time, geo-targeted alerts to citizens about potential disasters such as floods, cyclones, landslides, and earthquakes, along with weather updates from the Indian Meteorological Department (IMD).
 
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Capacity Building
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4550
+---
 
-**Matched text:**
+## Question 9: How can we protect electrical equipment during floods?
 
-Training first responders, organizing mock drills, and strengthening disaster response.
+### Hit 1
 
-## Question 7: How should I help children, older adults, and people with disabilities during evacuation?
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3034
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-### Result 1
-- **Source:** ndma_home.html
-- **Title:** Capacity Building
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4427
+### Hit 2
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 2
+- Distance: 0.4720
+- Text: in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to
 
-Training first responders, organizing mock drills, and strengthening disaster response.
+### Hit 3
 
-### Result 2
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.4598
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 1
+- Distance: 0.4784
+- Text: What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up 
 
-**Matched text:**
+---
 
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
+## Question 10: What precautions should we take while walking through floodwater?
 
-### Result 3
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 4
-- **Distance:** 0.4956
+### Hit 1
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 4
+- Distance: 0.3124
+- Text: evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have to walk in water, walk where the water is not moving. Use a stick to check the firmness of the ground in front of you. Do not drive into flooded areas. If floodwaters rise around your car, ab
 
-evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have to walk in water, walk where the water is not moving. Use a stick to check the firmness of the ground in front of you. Do not drive into flooded areas. If floodwaters rise around your car, abandon the car and move to higher ground if you can do so safely. You and the vehicle can be quickly swept away.
+### Hit 2
 
-## Question 8: What should I do if drinking water may be contaminated after a flood?
+- Source: ndma_home.html
+- Title: Rainy Season (Floods)
+- Page: Not available
+- Chunk: 1
+- Distance: 0.3485
+- Text: Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
 
-### Result 1
-- **Source:** ndma_home.html
-- **Title:** Rainy Season (Floods)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4541
+### Hit 3
 
-**Matched text:**
+- Source: flood_dos_donts.html
+- Title: Floods: Do’s & Don’ts | NDMA
+- Page: Not available
+- Chunk: 3
+- Distance: 0.3772
+- Text: in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to d
 
-Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
+---
 
-### Result 2
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4867
-
-**Matched text:**
-
-What to do before a flood To prepare for a flood, you should: Avoid building in flood prone areas unless you elevate and reinforce your home. Elevate the furnace, water heater, and electric panel if susceptible to flooding. Install "Check Valves" in sewer traps to prevent floodwater from backing up into the drains of your home. Contact community officials to find out if they are planning to construct barriers (levees, beams and floodwalls) to stop floodwater from entering the homes in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely
-
-### Result 3
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 2
-- **Distance:** 0.5055
-
-**Matched text:**
-
-in your area. Seal the walls in your basement with waterproofing compounds to avoid seepage. If a flood is likely to hit your area, you should: Listen to the radio or television for information. Be aware that flash flooding can occur. If there is any possibility of a flash flood, move immediately to higher ground. Do not wait for instructions to move. Be aware of streams, drainage channels, canyons, and other areas known to flood suddenly. Flash floods can occur in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to
-
-## Question 9: How can I switch off electricity and gas safely during an emergency?
-
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.5214
-
-**Matched text:**
-
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
-
-### Result 2
-- **Source:** ndma_home.html
-- **Title:** Summer (Heat Wave)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.6051
-
-**Matched text:**
-
-Wear lightweight, light-coloured, loose, cotton clothes. Get trained in first aid. Stay indoors during extreme hot and use heaters safely and properly. Avoid going out in the sun, especially between 12.00 noon and 3.00 p.m. Avoid strenuous activities when outside in the afternoon.
-
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Rainy Season (Floods)
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.6086
-
-**Matched text:**
-
-Listen to radio, watch TV, read newspapers for weather updates. Stay away from electric poles and fallen power lines to avoid electrocution. Do not allow children to play in or near flood waters. Don't use any damaged electrical goods, get them checked.
-
-## Question 10: What should I do after the immediate danger from a disaster has passed?
-
-### Result 1
-- **Source:** flood_dos_donts.html
-- **Title:** Floods: Do’s & Don’ts | NDMA
-- **Page:** Not available
-- **Chunk:** 3
-- **Distance:** 0.4044
-
-**Matched text:**
-
-in these areas with or without such typical warnings as rain clouds or heavy rain. If you must prepare to evacuate, you should: Secure your home. If you have time, bring in outdoor furniture. Move essential items to an upper floor. Turn off utilities at the main switches or valves if instructed to do so. Disconnect electrical appliances. Do not touch electrical equipment if you are wet or standing in water. If you have to leave your home, remember these evacuation tips: Do not walk through moving water. Six inches of moving water can make you fall. If you have
-
-### Result 2
-- **Source:** ndma_home.html
-- **Title:** Tsunami
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4401
-
-**Matched text:**
-
-Know the height of your street above sea level and the distance of your street from the coast or other high-risk waters. Plan evacuation routes from your home, school, workplace, or any other place you could be where tsunamis present a risk Practice your evacuation routes. Move immediately to higher ground, DO NOT wait for a tsunami warning to be announced.
-
-### Result 3
-- **Source:** ndma_home.html
-- **Title:** Coordination & Collaboration
-- **Page:** Not available
-- **Chunk:** 1
-- **Distance:** 0.4409
-
-**Matched text:**
-
-Integrating technology and data for early warning systems and efficient disaster response.
