@@ -1,21 +1,29 @@
 
 """AapdaMitra API."""
 
+import time
 import uuid
 
 from fastapi import FastAPI, HTTPException
 from langgraph.types import Command
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.graph import graph as agent_graph
 from app.graph import run_agent
+from app.observability import (
+    INJECTION_REFUSAL,
+    MAX_QUESTION_LENGTH,
+    is_prompt_injection,
+    metrics_summary,
+    record_request,
+)
 from app.rag import router as rag_router
 from app.search_api import router as search_router
 
 app = FastAPI(
     title="AapdaMitra API",
     description="Disaster safety search, RAG and LangGraph agent.",
-    version="2.0.0"
+    version="2.1.0"
 )
 
 
@@ -26,7 +34,9 @@ app.include_router(rag_router)
 
 # Agent request model
 class AgentRequest(BaseModel):
-    question: str | None = None
+    question: str | None = Field(
+        default=None, max_length=MAX_QUESTION_LENGTH
+    )
     temperature: float | None = None
     humidity: float | None = None
     thread_id: str | None = None
@@ -48,7 +58,19 @@ def agent_endpoint(request: AgentRequest):
                 detail="Please provide a question."
             )
 
+        # Prompt-injection guard: refuse before the agent runs.
+        if is_prompt_injection(request.question):
+            record_request(
+                "/agent", 0.0, blocked=True, status="blocked"
+            )
+            return {
+                "status": "blocked",
+                "thread_id": request.thread_id,
+                "message": INJECTION_REFUSAL
+            }
+
         thread_id = request.thread_id or str(uuid.uuid4())
+        start = time.perf_counter()
 
         try:
             response = run_agent(
@@ -58,10 +80,15 @@ def agent_endpoint(request: AgentRequest):
                 thread_id=thread_id
             )
         except Exception as e:  # noqa: BLE001
+            latency = (time.perf_counter() - start) * 1000
+            record_request("/agent", latency, status="error")
             raise HTTPException(
                 status_code=500,
                 detail=f"Agent execution failed: {e!s}"
             )
+
+        latency = (time.perf_counter() - start) * 1000
+        record_request("/agent", latency, status="ok")
 
     # ----------------------------------
     # SECOND REQUEST: Approval / Rejection
@@ -138,6 +165,7 @@ def home():
         "semantic_search": "/search/semantic?q=earthquake safety",
         "ask": "/ask",
         "agent": "/agent",
+        "metrics": "/metrics",
         "documentation": "/docs"
     }
 
@@ -146,3 +174,10 @@ def home():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+# METRICS
+@app.get("/metrics")
+def metrics():
+    """Return aggregated request metrics (latency, tokens, cache, blocks)."""
+    return metrics_summary()

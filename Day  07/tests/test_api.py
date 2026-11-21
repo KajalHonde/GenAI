@@ -122,7 +122,15 @@ def test_ask_endpoint_uses_fake_llm_and_returns_citation():
     expected_answer = "Move to higher ground."
 
     with patch("app.rag.search_documents", return_value=search_results), patch(
-        "app.rag.generate_response", return_value=expected_answer
+        "app.rag.generate_response_with_usage",
+        return_value={
+            "answer": expected_answer,
+            "usage": {
+                "prompt_tokens": 10,
+                "completion_tokens": 5,
+                "total_tokens": 15,
+            },
+        },
     ) as generate:
         response = client.post(
             "/ask",
@@ -145,7 +153,7 @@ def test_ask_endpoint_abstains_when_no_records_are_found():
 
     with patch(
         "app.rag.search_documents", return_value=search_results
-    ), patch("app.rag.generate_response") as generate:
+    ), patch("app.rag.generate_response_with_usage") as generate:
         response = client.post(
             "/ask",
             json={"question": "What should I do during a flood?"},

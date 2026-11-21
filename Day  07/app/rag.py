@@ -1,10 +1,20 @@
 
 import re
+import time
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.llm import generate_response
+from app.llm import generate_response_with_usage
+from app.observability import (
+    INJECTION_REFUSAL,
+    MAX_QUESTION_LENGTH,
+    cache_get,
+    cache_key,
+    cache_set,
+    is_prompt_injection,
+    record_request,
+)
 from app.vectorstore import search_documents
 
 router = APIRouter(tags=["RAG Question Answering"])
@@ -32,7 +42,9 @@ STOP_WORDS = {
 
 
 class AskRequest(BaseModel):
-    question: str = Field(..., min_length=3)
+    question: str = Field(
+        ..., min_length=3, max_length=MAX_QUESTION_LENGTH
+    )
     top_k: int = Field(default=5, ge=1, le=10)
 
 
@@ -46,7 +58,43 @@ def get_keywords(text):
     }
 
 
-def answer_question(question: str, top_k: int = 5):
+def answer_question(
+    question: str,
+    top_k: int = 5,
+    *,
+    endpoint: str = "/ask",
+    record: bool = True,
+):
+    """Answer a disaster-safety question with retrieval + generation.
+
+    Production guards applied here so both ``/ask`` and the LangGraph agent
+    share them: prompt-injection refusal, an answer cache, and per-request
+    logging of latency and token usage.
+    """
+
+    start = time.perf_counter()
+
+    # Prompt-injection guard: refuse before the model sees the input.
+    if is_prompt_injection(question):
+        latency = (time.perf_counter() - start) * 1000
+        if record:
+            record_request(
+                endpoint, latency, blocked=True, status="blocked"
+            )
+        return {
+            "question": question,
+            "answer": INJECTION_REFUSAL,
+            "citations": []
+        }
+
+    # Cache lookup keyed on the normalised question and top_k.
+    key = cache_key(question, top_k)
+    cached = cache_get(key)
+    if cached is not None:
+        latency = (time.perf_counter() - start) * 1000
+        if record:
+            record_request(endpoint, latency, cached=True, status="ok")
+        return cached
 
     results = search_documents(question, top_k)
 
@@ -54,12 +102,20 @@ def answer_question(question: str, top_k: int = 5):
     metadatas = results["metadatas"][0]
     distances = results["distances"][0]
 
-    if not documents:
-        return {
+    def _abstain():
+        latency = (time.perf_counter() - start) * 1000
+        if record:
+            record_request(endpoint, latency, status="ok")
+        result = {
             "question": question,
             "answer": "I don't know.",
             "citations": []
         }
+        cache_set(key, result)
+        return result
+
+    if not documents:
+        return _abstain()
 
     relevant_chunks = []
 
@@ -71,11 +127,7 @@ def answer_question(question: str, top_k: int = 5):
             relevant_chunks.append((document, metadata))
 
     if not relevant_chunks:
-        return {
-            "question": question,
-            "answer": "I don't know.",
-            "citations": []
-        }
+        return _abstain()
 
     question_keywords = get_keywords(question)
 
@@ -129,27 +181,46 @@ Do not invent safety instructions.
 
     try:
 
-        answer = generate_response(
+        response = generate_response_with_usage(
             system_prompt=SYSTEM_PROMPT,
             user_message=user_message
         )
 
-        if not answer or answer.strip().lower() == "i don't know.":
-            answer = "I don't know."
-            citations = []
-
-        return {
-            "question": question,
-            "answer": answer,
-            "citations": citations
-        }
+        answer = response["answer"]
+        usage = response["usage"]
 
     except Exception as error:  # noqa: BLE001
 
+        latency = (time.perf_counter() - start) * 1000
+        if record:
+            record_request(endpoint, latency, status="error")
         raise HTTPException(
             status_code=500,
             detail=f"Answer generation failed: {error}"
         )
+
+    if not answer or answer.strip().lower() == "i don't know.":
+        answer = "I don't know."
+        citations = []
+
+    latency = (time.perf_counter() - start) * 1000
+    if record:
+        record_request(
+            endpoint,
+            latency,
+            prompt_tokens=usage.get("prompt_tokens", 0),
+            completion_tokens=usage.get("completion_tokens", 0),
+            status="ok"
+        )
+
+    result = {
+        "question": question,
+        "answer": answer,
+        "citations": citations
+    }
+
+    cache_set(key, result)
+    return result
 
 
 @router.post("/ask")
@@ -157,5 +228,6 @@ def ask_question(request: AskRequest):
 
     return answer_question(
         request.question,
-        request.top_k
+        request.top_k,
+        endpoint="/ask"
     )
