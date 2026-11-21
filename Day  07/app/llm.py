@@ -6,9 +6,14 @@ from google import genai
 from google.genai import types
 from groq import Groq
 
-# Load .env file from Day 06 folder
-BASE_DIR = Path(__file__).resolve().parents[2] / "Day 06"
-load_dotenv(BASE_DIR / ".env")
+# Load .env from the working directory (or any parent) when running locally.
+# On Render, env vars are injected by the platform — load_dotenv is a no-op
+# there, which is correct.  We also try the sibling Day 06 folder so the
+# local dev workflow (running from the repo root) keeps working.
+load_dotenv()
+_DAY06_ENV = Path(__file__).resolve().parents[2] / "Day 06" / ".env"
+if _DAY06_ENV.exists():
+    load_dotenv(_DAY06_ENV)
 
 
 def _call_groq(system_prompt, user_message, api_key, model):

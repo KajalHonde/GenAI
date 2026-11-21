@@ -10,6 +10,15 @@ services:
       /bin/sh -c 'exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-10000}"'
     healthCheckPath: /health
     autoDeployTrigger: checksPass
+    envVars:
+      - key: LLM_PROVIDER
+        value: groq
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      # Set GROQ_API_KEY (and optionally GEMINI_API_KEY) in the Render
+      # dashboard under Environment for this service.  Never commit keys here.
 
   - type: web
     name: aapdamitra-ui
@@ -24,4 +33,7 @@ services:
     autoDeployTrigger: checksPass
     envVars:
       - key: API_URL
-        value: http://aapdamitra-api:10000
+        fromService:
+          name: aapdamitra-api
+          type: web
+          property: host
