@@ -1,5 +1,7 @@
 # AapdaMitra
 
+[![CI](https://github.com/KajalHonde/GenAI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/KajalHonde/GenAI/actions/workflows/ci.yml)
+
 ## Product
 AapdaMitra is a disaster awareness and preparedness project that provides safety information to families before, during, and after natural disasters such as floods, heatwaves, and earthquakes.
 
