@@ -7,7 +7,7 @@ services:
     dockerfilePath: "Day  07/Dockerfile"
     dockerContext: "Day  07"
     dockerCommand: >-
-      /bin/sh -c 'exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-10000}"'
+      uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     autoDeployTrigger: checksPass
     envVars:
@@ -17,8 +17,10 @@ services:
         value: openai/gpt-oss-120b
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
-      # Set GROQ_API_KEY (and optionally GEMINI_API_KEY) in the Render
-      # dashboard under Environment for this service.  Never commit keys here.
+      - key: PORT
+        value: 10000
+      # Add GROQ_API_KEY in the Render dashboard → Environment.
+      # Never commit secret keys to this file.
 
   - type: web
     name: aapdamitra-ui
@@ -28,12 +30,11 @@ services:
     dockerfilePath: "Day  07/Dockerfile"
     dockerContext: "Day  07"
     dockerCommand: >-
-      /bin/sh -c 'exec streamlit run ui/app.py --server.address=0.0.0.0 --server.port="${PORT:-10000}"'
-    healthCheckPath: /
+      streamlit run ui/app.py --server.address 0.0.0.0 --server.port $PORT
+    healthCheckPath: /_stcore/health
     autoDeployTrigger: checksPass
     envVars:
+      - key: PORT
+        value: 10000
       - key: API_URL
-        fromService:
-          name: aapdamitra-api
-          type: web
-          property: host
+        value: https://aapdamitra-api.onrender.com

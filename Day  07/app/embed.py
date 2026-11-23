@@ -2,15 +2,23 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Load the embedding model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+# Lazy-loaded so the model is not downloaded at import time.
+# This prevents Render's health-check from timing out on cold start.
+_model = None
+
+
+def _get_model() -> SentenceTransformer:
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
 
 
 def generate_embeddings(texts):
     """
     Convert a list of text into numerical vectors.
     """
-    embeddings = model.encode(
+    embeddings = _get_model().encode(
         texts,
         normalize_embeddings=True
     )
