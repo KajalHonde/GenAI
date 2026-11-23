@@ -1,82 +1,53 @@
+"""Embedding helper for AapdaMitra.
+
+Uses ChromaDB's built-in ONNX embedding function (all-MiniLM-L6-v2 via
+onnxruntime) instead of sentence-transformers + PyTorch.  This keeps the
+runtime footprint under ~150 MB so the service runs on Render's free tier.
+The model is downloaded once on first use and cached in the directory set
+by SENTENCE_TRANSFORMERS_HOME / HF_HOME (or ~/.cache by default).
+"""
+
+from __future__ import annotations
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 
-# Lazy-loaded so the model is not downloaded at import time.
-# This prevents Render's health-check from timing out on cold start.
-_model = None
-
-
-def _get_model() -> SentenceTransformer:
-    global _model
-    if _model is None:
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
-    return _model
+# Lazy singleton — avoids downloading the model at import time.
+_ef = None
 
 
-def generate_embeddings(texts):
-    """
-    Convert a list of text into numerical vectors.
-    """
-    embeddings = _get_model().encode(
-        texts,
-        normalize_embeddings=True
-    )
-
-    return embeddings
+def _get_ef() -> ONNXMiniLM_L6_V2:
+    global _ef
+    if _ef is None:
+        _ef = ONNXMiniLM_L6_V2()
+    return _ef
 
 
-def semantic_search(question, documents, top_k=3):
-    """
-    Find the most relevant document chunks for a question.
-    """
+def generate_embeddings(texts: list[str]) -> np.ndarray:
+    """Return a float32 numpy array of shape (len(texts), 384)."""
+    ef = _get_ef()
+    # ChromaDB embedding functions return a list of lists.
+    result = ef(texts)
+    return np.array(result, dtype=np.float32)
 
+
+def semantic_search(question: str, documents: list[dict], top_k: int = 3) -> list[dict]:
+    """Find the most relevant document chunks for a question."""
     if not documents:
         return []
 
-    # Extract text from document chunks
     texts = [doc["text"] for doc in documents]
+    doc_embeddings = generate_embeddings(texts)
+    q_embedding = generate_embeddings([question])[0]
 
-    # Generate document embeddings
-    document_embeddings = generate_embeddings(texts)
-
-    # Generate question embedding
-    question_embedding = generate_embeddings([question])[0]
-
-    # Calculate similarity scores
-    scores = np.dot(document_embeddings, question_embedding)
-
-    # Get the highest scoring results
+    scores = np.dot(doc_embeddings, q_embedding)
     top_indices = np.argsort(scores)[::-1][:top_k]
 
-    results = []
-
-    for index in top_indices:
-        result = {
-            "text": documents[index]["text"],
-            "metadata": documents[index]["metadata"],
-            "score": float(scores[index])
+    return [
+        {
+            "text": documents[i]["text"],
+            "metadata": documents[i]["metadata"],
+            "score": float(scores[i]),
         }
-
-        results.append(result)
-
-    return results
-
-
-if __name__ == "__main__":
-    from app.chunking import load_documents
-
-    documents = load_documents()
-
-    print("Total documents chunks:", len(documents))
-
-    question = "What should we do during floods?"
-
-    results = semantic_search(question, documents)
-
-    print("\nQuestion:", question)
-
-    for result in results:
-        print("\nRelevant text:", result["text"])
-        print("Metadata:", result["metadata"])
-        print("Similarity score:", result["score"])
+        for i in top_indices
+    ]

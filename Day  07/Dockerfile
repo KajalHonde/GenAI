@@ -2,22 +2,20 @@ FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    STREAMLIT_SERVER_HEADLESS=true \
-    SENTENCE_TRANSFORMERS_HOME=/app/.model_cache \
-    HF_HOME=/app/.model_cache
+    STREAMLIT_SERVER_HEADLESS=true
 
 WORKDIR /app
 
-# Install Python dependencies (cached layer).
+# Install dependencies — onnxruntime (~50 MB) instead of torch (~2 GB)
+# so the image fits inside Render's free-tier memory limit (512 MB).
 COPY requirements-day7.txt .
 RUN pip install --no-cache-dir -r requirements-day7.txt
 
-# Copy application code.
 COPY . .
 
-# Pre-download the embedding model at build time so there is no
-# network download at runtime — avoids Render's health-check timeout.
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2'); print('Model cached OK')"
+# Warm-up: download the ONNX MiniLM model at build time so runtime
+# cold-starts don't need a network download.
+RUN python -c "from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2; ONNXMiniLM_L6_V2()([ 'warm up']); print('ONNX model cached OK')"
 
 EXPOSE 8000 8501
 
