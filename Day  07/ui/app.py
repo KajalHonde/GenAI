@@ -180,7 +180,11 @@ def save_feedback(question: str, answer: str, rating: str) -> None:
 
 def post_json(base_url: str, endpoint: str, payload: dict):
     url = base_url.rstrip("/") + endpoint
-    response = requests.post(url, json=payload, timeout=90)
+    headers = {}
+    secret = os.getenv("API_SECRET_KEY", "")
+    if secret:
+        headers["X-API-Key"] = secret
+    response = requests.post(url, json=payload, headers=headers, timeout=90)
     response.raise_for_status()
     return response.json()
 

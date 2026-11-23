@@ -19,8 +19,10 @@ services:
         value: gemini-2.5-flash
       - key: PORT
         value: 10000
-      # Add GROQ_API_KEY in the Render dashboard → Environment.
-      # Never commit secret keys to this file.
+      # Set these two secrets in the Render dashboard → Environment.
+      # Never commit real values here.
+      # GROQ_API_KEY   — your Groq key (gsk_...)
+      # API_SECRET_KEY — any long random string; the UI must share it
 
   - type: web
     name: aapdamitra-ui
@@ -38,3 +40,4 @@ services:
         value: 10000
       - key: API_URL
         value: https://aapdamitra-api.onrender.com
+      # API_SECRET_KEY — must match the value set on aapdamitra-api
