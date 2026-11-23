@@ -226,3 +226,52 @@ def health():
 def metrics():
     """Return aggregated request metrics (latency, tokens, cache, blocks)."""
     return metrics_summary()
+
+
+# ---------------------------------------------------------------------------
+# Feedback store — kept in memory for the lifetime of the container.
+# Protected by the API key so only you can read responses.
+# ---------------------------------------------------------------------------
+_feedback: list[dict] = []
+_feedback_lock = __import__("threading").Lock()
+
+
+class FeedbackRequest(BaseModel):
+    question: str
+    answer: str
+    rating: str  # "up" or "down"
+    timestamp: str = ""
+
+
+@app.post("/feedback")
+def post_feedback(body: FeedbackRequest):
+    """Save one thumbs-up / thumbs-down record."""
+    import datetime
+
+    record = {
+        "timestamp": body.timestamp or datetime.datetime.now().isoformat(
+            timespec="seconds"
+        ),
+        "question": body.question,
+        "answer": body.answer,
+        "rating": body.rating,
+    }
+    with _feedback_lock:
+        _feedback.append(record)
+    return {"status": "saved", "total": len(_feedback)}
+
+
+@app.get("/feedback")
+def get_feedback(rating: str | None = None):
+    """Return all feedback records. Optionally filter by rating=up or rating=down."""
+    with _feedback_lock:
+        records = list(_feedback)
+    if rating:
+        records = [r for r in records if r["rating"] == rating]
+    return {
+        "total": len(records),
+        "thumbs_up": sum(1 for r in _feedback if r["rating"] == "up"),
+        "thumbs_down": sum(1 for r in _feedback if r["rating"] == "down"),
+        "records": records,
+    }
+

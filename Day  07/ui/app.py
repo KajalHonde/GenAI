@@ -6,9 +6,9 @@ Run from the project root:
 """
 from __future__ import annotations
 
+import datetime
 import json
 import os
-from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -167,15 +167,33 @@ if "pending_approval" not in st.session_state:
 
 
 def save_feedback(question: str, answer: str, rating: str) -> None:
+    """Save feedback to the API (persists server-side) and also locally."""
+    # Always write locally as a backup.
     FEEDBACK_FILE.parent.mkdir(parents=True, exist_ok=True)
     record = {
-        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
         "question": question,
         "answer": answer,
         "rating": rating,
     }
     with FEEDBACK_FILE.open("a", encoding="utf-8") as file:
         file.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+    # Also POST to the API so it's readable from /feedback.
+    try:
+        api_url = os.getenv("API_URL", "http://127.0.0.1:8000")
+        headers = {}
+        secret = os.getenv("API_SECRET_KEY", "")
+        if secret:
+            headers["X-API-Key"] = secret
+        requests.post(
+            api_url.rstrip("/") + "/feedback",
+            json=record,
+            headers=headers,
+            timeout=10,
+        )
+    except Exception:  # noqa: BLE001, S110
+        pass  # Never crash the UI over a failed feedback POST
 
 
 def post_json(base_url: str, endpoint: str, payload: dict):
@@ -262,8 +280,8 @@ overview1.metric("Safety phases", "3", "Before • During • After")
 overview2.metric("Hazard guides", str(len(CHECKLISTS)), "Choose your hazard")
 overview3.metric("Assistant", "Online UI", "Connects to your FastAPI")
 
-chat_tab, checklist_tab, about_tab = st.tabs(
-    ["💬 Chat assistant", "📋 Safety checklist", "ℹ️ About"]
+chat_tab, checklist_tab, feedback_tab, about_tab = st.tabs(
+    ["💬 Chat assistant", "📋 Safety checklist", "📊 Feedback", "ℹ️ About"]
 )
 
 with chat_tab:
@@ -494,6 +512,63 @@ with checklist_tab:
     st.caption(
         "Open the downloaded HTML file in a browser and select Print."
     )
+
+
+with feedback_tab:
+    st.subheader("User Feedback")
+    st.caption("See what your friends thought about AapdaMitra's answers.")
+
+    api_url_fb = os.getenv("API_URL", "http://127.0.0.1:8000")
+    secret_fb = os.getenv("API_SECRET_KEY", "")
+    headers_fb = {"X-API-Key": secret_fb} if secret_fb else {}
+
+    try:
+        resp = requests.get(
+            api_url_fb.rstrip("/") + "/feedback",
+            headers=headers_fb,
+            timeout=10,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total responses", data["total"])
+        col2.metric("👍 Helpful", data["thumbs_up"])
+        col3.metric("👎 Not helpful", data["thumbs_down"])
+
+        if data["total"] > 0:
+            st.divider()
+
+            filter_opt = st.radio(
+                "Show",
+                ["All", "👍 Helpful only", "👎 Not helpful only"],
+                horizontal=True,
+            )
+
+            records = data["records"]
+            if filter_opt == "👍 Helpful only":
+                records = [r for r in records if r["rating"] == "up"]
+            elif filter_opt == "👎 Not helpful only":
+                records = [r for r in records if r["rating"] == "down"]
+
+            for record in reversed(records):
+                icon = "👍" if record["rating"] == "up" else "👎"
+                with st.expander(
+                    f"{icon} {record['timestamp']} — {record['question'][:60]}..."
+                    if len(record["question"]) > 60
+                    else f"{icon} {record['timestamp']} — {record['question']}"
+                ):
+                    st.markdown(f"**Question:** {record['question']}")
+                    st.markdown(f"**Answer:** {record['answer']}")
+                    st.markdown(f"**Rating:** {icon}")
+        else:
+            st.info(
+                "No feedback yet. Share the app with friends and ask them "
+                "to rate answers with 👍 or 👎."
+            )
+
+    except Exception as exc:  # noqa: BLE001
+        st.warning(f"Could not load feedback: {exc}")
 
 
 with about_tab:
