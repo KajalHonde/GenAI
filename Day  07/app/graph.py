@@ -154,34 +154,52 @@ def approval_router(state: AgentState):
     return "end"
 
 
-# 8. Build LangGraph
-builder = StateGraph(AgentState)
-
-builder.add_node("planner", planner_node)
-builder.add_node("approval", approval_node)
-builder.add_node("execute", execute_node)
-
-builder.add_edge(START, "planner")
-builder.add_edge("planner", "approval")
-
-builder.add_conditional_edges(
-    "approval",
-    approval_router,
-    {
-        "execute": "execute",
-        "end": END
-    }
-)
-
-builder.add_edge("execute", END)
+# ---------------------------------------------------------------------------
+# Lazy graph construction — deferred until first use so the module can be
+# imported cheaply on Render's memory-constrained free tier.
+# ---------------------------------------------------------------------------
+_graph = None
 
 
-# 9. Add memory
-memory = MemorySaver()
+def _get_graph():
+    global _graph
+    if _graph is None:
+        builder = StateGraph(AgentState)
 
-graph = builder.compile(
-    checkpointer=memory
-)
+        builder.add_node("planner", planner_node)
+        builder.add_node("approval", approval_node)
+        builder.add_node("execute", execute_node)
+
+        builder.add_edge(START, "planner")
+        builder.add_edge("planner", "approval")
+
+        builder.add_conditional_edges(
+            "approval",
+            approval_router,
+            {
+                "execute": "execute",
+                "end": END
+            }
+        )
+
+        builder.add_edge("execute", END)
+
+        memory = MemorySaver()
+        _graph = builder.compile(checkpointer=memory)
+
+    return _graph
+
+
+# Keep a module-level alias for code that does `from app.graph import graph`
+class _LazyGraph:
+    def invoke(self, *args, **kwargs):
+        return _get_graph().invoke(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(_get_graph(), name)
+
+
+graph = _LazyGraph()
 
 
 # 10. Run agent
@@ -207,7 +225,7 @@ def run_agent(
         "approved": None
     }
 
-    return graph.invoke(
+    return _get_graph().invoke(
         initial_state,
         config=config
     )
