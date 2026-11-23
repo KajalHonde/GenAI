@@ -50,11 +50,11 @@ All items are closed as of the `final` tag.
 | Item | Status | Notes |
 |---|---|---|
 | `app/main.py` FastAPI: `GET /health`, `/records`, `/records/{id}`, `/search`, `POST /questions` | ✅ Done | `Day 04/main.py` |
-| 404 for missing record | ✅ Done | |
+| 404 for missing record | ✅ Done | `GET /records/{id}` raises HTTP 404 — verified with TestClient |
 | `analysis/explore.py` — 3 pandas facts | ✅ Done | `Day 04/analysis/explore.py` |
 | `app/smart_search.py` — TF-IDF + cosine powers `/search` | ✅ Done | `Day02/app/smart_search.py` |
 | README "How to run" | ✅ Done | |
-| Tag `week-1` | ✅ Done | Tag: `week-1` (applied retroactively — same commit as checkpoint-1) |
+| Tag `week-1` | ✅ Done | Tag: `week-1` on commit that completes all Day 04 endpoints |
 
 ---
 
