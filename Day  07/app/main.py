@@ -1,8 +1,11 @@
 
 """AapdaMitra API."""
 
+import logging
 import time
 import uuid
+from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from langgraph.types import Command
@@ -19,11 +22,53 @@ from app.observability import (
 )
 from app.rag import router as rag_router
 from app.search_api import router as search_router
+from app.vectorstore import collection
+
+logger = logging.getLogger("aapdamitra.startup")
+
+
+def _auto_index() -> None:
+    """Index NDMA documents if the vector store is empty.
+
+    Called once at startup so the app is ready to answer questions
+    immediately on Render without a separate indexing step.
+    """
+    try:
+        if collection.count() > 0:
+            logger.info("Vector store already has %d chunks — skipping index.", collection.count())
+            return
+
+        logger.info("Vector store is empty — building index from documents/...")
+        from app.chunking import create_chunks, load_documents
+        from app.vectorstore import add_documents
+
+        docs_path = Path(__file__).resolve().parents[1] / "documents"
+        documents = load_documents(docs_path)
+        chunks = create_chunks(documents, chunk_size=100)
+
+        if chunks:
+            add_documents(chunks)
+            logger.info("Indexed %d chunks.", len(chunks))
+        else:
+            logger.warning("No documents found in %s — vector store remains empty.", docs_path)
+
+    except Exception as exc:  # noqa: BLE001
+        # Never crash the whole API if indexing fails —
+        # /health must still return 200.
+        logger.error("Auto-index failed: %s", exc)
+
+
+@asynccontextmanager
+async def lifespan(application: FastAPI):
+    _auto_index()
+    yield
+
 
 app = FastAPI(
     title="AapdaMitra API",
     description="Disaster safety search, RAG and LangGraph agent.",
-    version="2.1.0"
+    version="2.1.0",
+    lifespan=lifespan,
 )
 
 
