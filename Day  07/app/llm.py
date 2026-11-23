@@ -104,7 +104,11 @@ def generate_response_with_usage(
         api_key = os.getenv("GROQ_API_KEY")
 
         if not api_key:
-            raise ValueError("GROQ_API_KEY is missing in Day 06/.env")
+            raise ValueError(
+                "GROQ_API_KEY is not set. "
+                "Add it in the Render dashboard → Environment, "
+                "or in your local .env file."
+            )
 
         answer, usage = _call_groq(
             system_prompt,
@@ -121,7 +125,11 @@ def generate_response_with_usage(
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
-            raise ValueError("GEMINI_API_KEY is missing in Day 06/.env")
+            raise ValueError(
+                "GEMINI_API_KEY is not set. "
+                "Add it in the Render dashboard → Environment, "
+                "or in your local .env file."
+            )
 
         answer, usage = _call_gemini(
             system_prompt,
