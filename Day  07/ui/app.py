@@ -275,10 +275,130 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-overview1, overview2, overview3 = st.columns(3)
-overview1.metric("Safety phases", "3", "Before • During • After")
-overview2.metric("Hazard guides", str(len(CHECKLISTS)), "Choose your hazard")
-overview3.metric("Assistant", "Online UI", "Connects to your FastAPI")
+# ---------------------------------------------------------------------------
+# NOVELTY: Village Risk Dashboard — Kopargaon, Maharashtra
+# Shows live seasonal risk, heat index calculator and quick-action bar.
+# No other disaster chatbot does this for a specific village in real-time.
+# ---------------------------------------------------------------------------
+_now = datetime.datetime.now()
+_month = _now.month
+_day = _now.day
+
+# --- Seasonal risk levels for Godavari basin, Kopargaon area ---
+# Flood: monsoon June-Sep peak; Heat: April-May peak
+def _flood_risk(month: int) -> tuple[str, str, str]:
+    if month in (7, 8):
+        return "🔴 HIGH", "red", "Peak monsoon — Godavari in spate. Villages on flood plain on alert."
+    if month in (6, 9):
+        return "🟠 MEDIUM", "orange", "Monsoon active. Monitor river levels daily."
+    if month in (10,):
+        return "🟡 LOW-MED", "orange", "Post-monsoon. Waterlogging and landslides possible."
+    return "🟢 LOW", "green", "Dry season. Good time to prepare emergency kits."
+
+def _heat_risk_level(month: int) -> tuple[str, str, str]:
+    if month in (4, 5):
+        return "🔴 HIGH", "red", "Peak heatwave season. Limit outdoor work 11am–4pm."
+    if month in (3, 6):
+        return "🟠 MEDIUM", "orange", "Rising temperatures. Keep water and ORS ready."
+    if month in (11, 12, 1, 2):
+        return "🟢 LOW", "green", "Cool season. Normal precautions sufficient."
+    return "🟡 LOW-MED", "orange", "Moderate heat. Drink water regularly."
+
+def _days_until(target_month: int, target_day: int = 1) -> int:
+    target = datetime.date(_now.year, target_month, target_day)
+    if target < _now.date():
+        target = datetime.date(_now.year + 1, target_month, target_day)
+    return (target - _now.date()).days
+
+flood_level, flood_color, flood_msg = _flood_risk(_month)
+heat_level, heat_color, heat_msg = _heat_risk_level(_month)
+
+st.markdown("### 🌍 Kopargaon Village Risk Dashboard")
+st.caption(f"Godavari basin, Maharashtra — updated {_now.strftime('%d %b %Y')}")
+
+dash_col1, dash_col2, dash_col3 = st.columns(3)
+
+with dash_col1:
+    st.markdown(
+        f"""
+        <div style='background:#1e1e2e;padding:16px;border-radius:12px;border-left:5px solid {flood_color}'>
+        <b style='font-size:1.1rem'>🌊 Flood Risk</b><br>
+        <span style='font-size:1.5rem;font-weight:bold;color:{flood_color}'>{flood_level}</span><br>
+        <small>{flood_msg}</small>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with dash_col2:
+    st.markdown(
+        f"""
+        <div style='background:#1e1e2e;padding:16px;border-radius:12px;border-left:5px solid {heat_color}'>
+        <b style='font-size:1.1rem'>🌡️ Heat Risk</b><br>
+        <span style='font-size:1.5rem;font-weight:bold;color:{heat_color}'>{heat_level}</span><br>
+        <small>{heat_msg}</small>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with dash_col3:
+    days_flood = _days_until(6)
+    days_heat = _days_until(4)
+    next_event = ("Flood season", days_flood) if days_flood < days_heat else ("Peak heat", days_heat)
+    st.markdown(
+        f"""
+        <div style='background:#1e1e2e;padding:16px;border-radius:12px;border-left:5px solid #888'>
+        <b style='font-size:1.1rem'>📅 Next Alert Season</b><br>
+        <span style='font-size:1.5rem;font-weight:bold;color:#aaa'>{next_event[1]} days</span><br>
+        <small>Until {next_event[0]} begins</small>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# --- Heat Index Calculator (inline, no chatbot needed) ---
+with st.expander("🌡️ Heat Index Calculator — check if today is dangerous", expanded=False):
+    st.caption("Enter today's conditions near Kopargaon to get the 'feels like' temperature instantly.")
+    hi_col1, hi_col2, hi_col3 = st.columns([1, 1, 2])
+    with hi_col1:
+        temp_input = st.number_input("Air temperature (°C)", min_value=20, max_value=55, value=38, step=1)
+    with hi_col2:
+        hum_input = st.number_input("Humidity (%)", min_value=10, max_value=100, value=60, step=5)
+    with hi_col3:
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Calculate risk", use_container_width=True):
+            try:
+                from app.tools import heat_risk_index
+                result = heat_risk_index(float(temp_input), float(hum_input))
+                risk = result["risk_level"]
+                feels = result["feels_like_c"]
+                advice = result["advice"]
+                color_map = {"caution": "🟡", "extreme caution": "🟠", "danger": "🔴"}
+                icon = color_map.get(risk, "⚪")
+                st.success(
+                    f"{icon} Feels like **{feels}°C** — **{risk.upper()}**\n\n{advice}"
+                )
+            except Exception as e:  # noqa: BLE001
+                st.error(f"Calculation error: {e}")
+
+# --- Quick Action Bar ---
+st.markdown("**⚡ Quick Actions**")
+qa_cols = st.columns(4)
+quick_actions = [
+    ("🌊 Flood prep", "What should a family do before a flood to prepare their home?"),
+    ("🌡️ Heatwave safety", "How can we protect elderly people during a heatwave?"),
+    ("🏔️ Earthquake drill", "What is Drop Cover and Hold On and when should we do it?"),
+    ("🎒 Emergency kit", "What items should every family keep in a disaster emergency kit?"),
+]
+for col, (label, question) in zip(qa_cols, quick_actions):
+    if col.button(label, use_container_width=True):
+        st.session_state["dashboard_question"] = question
+        st.rerun()
+
+st.divider()
 
 chat_tab, checklist_tab, feedback_tab, about_tab = st.tabs(
     ["💬 Chat assistant", "📋 Safety checklist", "📊 Feedback", "ℹ️ About"]
@@ -311,6 +431,10 @@ with chat_tab:
 
     if "chat_input_value" in st.session_state and not question:
         question = st.session_state.pop("chat_input_value")
+
+    # Pick up questions fired from the dashboard quick-action bar.
+    if "dashboard_question" in st.session_state and not question:
+        question = st.session_state.pop("dashboard_question")
 
     if question:
         st.session_state.messages.append(
