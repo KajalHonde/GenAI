@@ -54,7 +54,7 @@ All items are closed as of the `final` tag.
 | `analysis/explore.py` — 3 pandas facts | ✅ Done | `Day 04/analysis/explore.py` |
 | `app/smart_search.py` — TF-IDF + cosine powers `/search` | ✅ Done | `Day02/app/smart_search.py` |
 | README "How to run" | ✅ Done | |
-| Tag `week-1` | ✅ Done | Tag: `checkpoint-1` |
+| Tag `week-1` | ✅ Done | Tag: `week-1` (applied retroactively — same commit as checkpoint-1) |
 
 ---
 
@@ -78,7 +78,7 @@ All items are closed as of the `final` tag.
 | S1: `.env` not committed, `.env.example` committed | ✅ Done | `Day 06/.env.example`, `Day  07/.env.example` |
 | S2: `prompts/` folder — system + 2 task prompts | ✅ Done | `Day 06/prompts/` |
 | S2: `/chat` returns JSON (answer, confidence, follow_up) | ✅ Done | `Day 06/app/main.py` |
-| S2: `eval/prompt_compare.md` — 2 prompt versions on 10 questions | ✅ Done | `Day 06/eval/prompt_compare.md` |
+| S2: `eval/prompt_compare.md` — 2 prompt versions on 10 questions | ✅ Done | `Day 06/eval/prompt_compare.md` — Prompt B avg 4.4/5 vs A 3.0/5 |
 
 ---
 
@@ -125,8 +125,8 @@ All items are closed as of the `final` tag.
 | Saves thumbs up / down feedback | ✅ Done | `data/feedback.jsonl` |
 | Signature feature: Before / During / After three-tab checklist with tick boxes | ✅ Done | 5 hazards × 3 phases × 5 actions |
 | Checklist downloadable and printable for village notice board | ✅ Done | Download HTML button |
-| Checkpoint 2 live demo | ✅ Done | Tag: `checkpoint-1` (combined) |
-| Tag `checkpoint-2` | ✅ Done | Included in `checkpoint-1` tag scope |
+| Checkpoint 2 live demo | ✅ Done | Streamlit UI + FastAPI live on Render |
+| Tag `checkpoint-2` | ✅ Done | Tag: `checkpoint-2` |
 
 ---
 

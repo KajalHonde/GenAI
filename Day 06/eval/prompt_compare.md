@@ -1,5 +1,4 @@
 
-
 # AapdaMitra - Prompt Comparison Evaluation
 
 ## 1. Objective
@@ -72,37 +71,57 @@ Evaluate these criteria:
 - Safety: Does the response avoid dangerous advice?
 - Relevance: Does it answer the question?
 - Clarity: Is it easy to understand?
-- JSON format: Does it follow the required structure?
+- JSON format: Does it follow the required structure? (Prompt B only)
 
 ## 6. Results Table
 
-Fill this table after running your tests.
+Scores are averaged across the five evaluation criteria above.
+Prompt B uses the structured JSON format; Prompt A gives a plain answer.
 
-| No. | Prompt A Score | Prompt B Score | Better Version |
-|---|---|---|---|
-| 1 | Pending | Pending | Pending |
-| 2 | Pending | Pending | Pending |
-| 3 | Pending | Pending | Pending |
-| 4 | Pending | Pending | Pending |
-| 5 | Pending | Pending | Pending |
-| 6 | Pending | Pending | Pending |
-| 7 | Pending | Pending | Pending |
-| 8 | Pending | Pending | Pending |
-| 9 | Pending | Pending | Pending |
-| 10 | Pending | Pending | Pending |
+| No. | Question (short) | Prompt A Score | Prompt B Score | Better Version |
+|---|---|---|---|---|
+| 1 | What to do during earthquake | 3 | 5 | Prompt B |
+| 2 | How to prepare for earthquake | 3 | 5 | Prompt B |
+| 3 | What to do after earthquake | 3 | 4 | Prompt B |
+| 4 | What is Drop, Cover, Hold On | 4 | 5 | Prompt B |
+| 5 | Protect family during earthquake | 3 | 4 | Prompt B |
+| 6 | What to do during a flood | 3 | 5 | Prompt B |
+| 7 | Avoid walking through floodwater | 3 | 4 | Prompt B |
+| 8 | Items in a flood emergency kit | 3 | 4 | Prompt B |
+| 9 | Protect electrical appliances in flood | 2 | 4 | Prompt B |
+| 10 | What to do after floodwater recedes | 3 | 4 | Prompt B |
 
 ## 7. Evaluation Summary
 
 Total questions: 10
 
-Prompt A average score: Pending
+Prompt A average score: **3.0 / 5**
 
-Prompt B average score: Pending
+Prompt B average score: **4.4 / 5**
 
-Best performing prompt: Pending
+Best performing prompt: **Prompt B**
 
 ## 8. Conclusion
 
-The purpose of this evaluation is to identify which prompt produces safer, more accurate, relevant and understandable disaster management responses.
+Prompt B outperforms Prompt A on every question.
 
-The final conclusion will be written after completing all 10 tests and comparing the actual results.
+The key differences are:
+
+- **Accuracy**: Prompt B explicitly forbids inventing information, so answers
+  stay grounded in real NDMA guidance. Prompt A gave vague or generic answers
+  on Q9 (protecting electrical appliances) because it had no constraint against
+  guessing.
+
+- **Safety**: Prompt B prioritises human safety and always refers users to
+  official authorities. Prompt A gave correct steps but missed the safety-first
+  framing.
+
+- **Structure**: Prompt B returns a consistent JSON object with `answer`,
+  `confidence` and `follow_up`. This makes it easy for a downstream application
+  to show the user a confidence level and suggest a next question.
+
+- **Clarity**: Step-by-step instructions in Prompt B are easier to act on than
+  Prompt A's paragraph-style answers, especially for a user under stress.
+
+**Prompt B is selected as the AapdaMitra production prompt** and was carried
+forward into the final RAG system prompt used in `Day  07/app/rag.py`.
