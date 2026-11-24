@@ -182,27 +182,39 @@ def save_feedback(question: str, answer: str, rating: str) -> None:
     # Also POST to the API so it's readable from /feedback.
     try:
         api_url = os.getenv("API_URL", "http://127.0.0.1:8000")
-        headers = {}
-        secret = os.getenv("API_SECRET_KEY", "")
-        if secret:
-            headers["X-API-Key"] = secret
         requests.post(
             api_url.rstrip("/") + "/feedback",
             json=record,
-            headers=headers,
+            headers=_api_headers(),
             timeout=10,
         )
     except Exception:  # noqa: BLE001, S110
         pass  # Never crash the UI over a failed feedback POST
 
 
+def _api_headers() -> dict:
+    secret = os.getenv("API_SECRET_KEY", "")
+    return {"X-API-Key": secret} if secret else {}
+
+
+def _wait_for_api(base_url: str, retries: int = 6, interval: int = 10) -> bool:
+    """Ping /health until the API wakes up. Returns True when healthy."""
+    import time
+    url = base_url.rstrip("/") + "/health"
+    for _ in range(retries):
+        try:
+            r = requests.get(url, headers=_api_headers(), timeout=10)
+            if r.status_code == 200:
+                return True
+        except Exception:  # noqa: BLE001
+            pass
+        time.sleep(interval)
+    return False
+
+
 def post_json(base_url: str, endpoint: str, payload: dict):
     url = base_url.rstrip("/") + endpoint
-    headers = {}
-    secret = os.getenv("API_SECRET_KEY", "")
-    if secret:
-        headers["X-API-Key"] = secret
-    response = requests.post(url, json=payload, headers=headers, timeout=90)
+    response = requests.post(url, json=payload, headers=_api_headers(), timeout=90)
     response.raise_for_status()
     return response.json()
 
@@ -485,9 +497,40 @@ with chat_tab:
                 )
 
             except requests.exceptions.HTTPError as exc:
-                st.error(f"API error: {exc}")
-                if exc.response is not None:
-                    st.code(exc.response.text)
+                status = exc.response.status_code if exc.response is not None else 0
+                if status in (502, 503, 504):
+                    with st.spinner(
+                        "⏳ The server is waking up from sleep (Render free tier). "
+                        "Retrying for up to 60 seconds…"
+                    ):
+                        awake = _wait_for_api(api_url, retries=6, interval=10)
+                    if awake:
+                        try:
+                            result = post_json(api_url, endpoint, payload)
+                            answer = show_answer(result)
+                            st.session_state.messages.append(
+                                {
+                                    "role": "assistant",
+                                    "content": answer,
+                                    "citations": (
+                                        result.get("citations")
+                                        or result.get("sources")
+                                        or []
+                                    ),
+                                }
+                            )
+                        except Exception as retry_exc:  # noqa: BLE001
+                            st.error(f"Still failing after wake-up: {retry_exc}")
+                    else:
+                        st.warning(
+                            "🛌 The server is taking longer than usual to wake up. "
+                            "Please wait 30 seconds and send your question again — "
+                            "it will respond once it's ready."
+                        )
+                else:
+                    st.error(f"API error: {exc}")
+                    if exc.response is not None:
+                        st.code(exc.response.text)
 
             except Exception as exc:  # noqa: BLE001
                 st.error(f"Something went wrong: {exc}")
@@ -643,13 +686,11 @@ with feedback_tab:
     st.caption("See what your friends thought about AapdaMitra's answers.")
 
     api_url_fb = os.getenv("API_URL", "http://127.0.0.1:8000")
-    secret_fb = os.getenv("API_SECRET_KEY", "")
-    headers_fb = {"X-API-Key": secret_fb} if secret_fb else {}
 
     try:
         resp = requests.get(
             api_url_fb.rstrip("/") + "/feedback",
-            headers=headers_fb,
+            headers=_api_headers(),
             timeout=10,
         )
         resp.raise_for_status()
